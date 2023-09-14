@@ -27,7 +27,7 @@ export default function PieChart(){
          .style('padding', '50')
          .style('overflow', 'visible')
          .style('border', '2px solid black')
-         .style('background', '#d3d3d3')
+         .style('background', '#000000')
 
     // setting up chart
     const formattedData = d3.pie().value(d=>d.value)(data)
@@ -44,7 +44,6 @@ export default function PieChart(){
        .join('path')
          .attr('d', arcGenerator)
          .attr('fill', d=> color(d.value))
-         .style('opacity', 0.3)
          
     // setting up annotation
     svg.selectAll()

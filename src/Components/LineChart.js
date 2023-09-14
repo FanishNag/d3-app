@@ -15,7 +15,7 @@ export default function LineChart(){
          .style('margin', '10')
          .style('padding', '50')
          .style('border', '2px solid black')
-         .style('background', '#d3d3d3')
+         .style('background', '#000000')
          .style('overflow', 'visible')
 
     // setting up scaling
@@ -24,7 +24,8 @@ export default function LineChart(){
         .range([0, w]);
     const yScale = d3.scaleLinear()
         .domain([0, h])
-        .range([h, 0]);
+        .range([h, 0])
+        .nice()
     const generateScaleLine= d3.line()
                                 .x((d,i)=>xScale(i))
                                 .y(yScale)
@@ -36,11 +37,38 @@ export default function LineChart(){
       .tickFormat(i=>i)
     const yAxis = d3.axisLeft(yScale)
       .ticks(5)
+    
+    // setting up grids
+    const xAxisGrid = d3.axisBottom(xScale)
+      .ticks(data.length)
+      .tickSize(-h)
+      .tickFormat('')
+
+    const yAxisGrid = d3.axisLeft(yScale)
+      .ticks(5)
+      .tickSize(-w)
+      .tickFormat('')
+    
+    // axes
     svg.append('g')
-        .call(xAxis)
         .attr('transform', `translate(0, ${h})`)
+        .attr('color', 'white')
+        .call(xAxis)
     svg.append('g')
+        .attr('color', 'white')
         .call(yAxis)
+
+    // grid
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .call(xAxisGrid)
+
+    svg.append('g')
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .call(yAxisGrid)
 
     // setting up data for svg
     svg.selectAll('.line')
@@ -48,7 +76,8 @@ export default function LineChart(){
        .join('path')
          .attr('d', d=>generateScaleLine(d))
          .attr('fill', 'none')
-         .attr('stroke', 'blue')
+         .attr('stroke', 'white') 
+         .attr('width', 10) 
 
     },[data])
 

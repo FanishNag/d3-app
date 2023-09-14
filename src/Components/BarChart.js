@@ -15,7 +15,7 @@ export default function BarChart(){
          .style('margin', '10')
          .style('padding', '50')
          .style('border', '2px solid black')
-         .style('background', '#d3d3d3')
+         .style('background', '#000000')
          .style('overflow', 'visible')
 
     // setting up scaling
@@ -32,12 +32,39 @@ export default function BarChart(){
       .ticks(data.length)
     //   .tickFormat(i=>i)
     const yAxis = d3.axisLeft(yScale)
-      .ticks(3)
+      .ticks(5)
+
+    // setting up grids
+    const xAxisGrid = d3.axisBottom(xScale)
+      .ticks(data.length)
+      .tickSize(-h)
+      .tickFormat('')
+
+    const yAxisGrid = d3.axisLeft(yScale)
+      .ticks(5)
+      .tickSize(-w)
+      .tickFormat('')
+
+    // axes
     svg.append('g')
         .call(xAxis)
         .attr('transform', `translate(0, ${h})`)
-    svg.append('g')
+        .attr('color', 'white')
+        svg.append('g')
         .call(yAxis)
+        .attr('color', 'white')
+    
+    // grid
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .call(xAxisGrid)
+
+    svg.append('g')
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .call(yAxisGrid)
 
     // setting up data for svg
     svg.selectAll('.bar')
@@ -47,8 +74,8 @@ export default function BarChart(){
          .attr('y', yScale )
          .attr('width', xScale.bandwidth() )
          .attr('height', val=> h-yScale(val) )
-         .attr('fill', 'none')
-         .attr('stroke', 'blue')
+         .attr('fill', 'orange')
+         .attr('stroke', 'orange')
 
     },[data])
 
