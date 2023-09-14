@@ -49,8 +49,7 @@ export default function BarChart(){
          .attr('height', val=> h-yScale(val) )
          .attr('fill', 'none')
          .attr('stroke', 'blue')
-    
-         console.log(yScale(11))
+
     },[data])
 
     return(
