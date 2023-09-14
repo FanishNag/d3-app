@@ -63,11 +63,13 @@ export default function LineChart(){
         .attr('transform', `translate(0, ${h})`)
         .attr("stroke-dasharray","4")
         .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
         .call(xAxisGrid)
 
     svg.append('g')
         .attr("stroke-dasharray","4")
         .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
         .call(yAxisGrid)
 
     // setting up data for svg
@@ -76,9 +78,9 @@ export default function LineChart(){
        .join('path')
          .attr('d', d=>generateScaleLine(d))
          .attr('fill', 'none')
-         .attr('stroke', 'white') 
-         .attr('width', 10) 
-
+         .attr('stroke', 'white')
+         .attr("stroke-width", 1.5)
+                    
     },[data])
 
     return(

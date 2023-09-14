@@ -59,11 +59,13 @@ export default function BarChart(){
         .attr('transform', `translate(0, ${h})`)
         .attr("stroke-dasharray","4")
         .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
         .call(xAxisGrid)
 
     svg.append('g')
         .attr("stroke-dasharray","4")
         .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
         .call(yAxisGrid)
 
     // setting up data for svg
