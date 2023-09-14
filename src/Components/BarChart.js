@@ -1,7 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function LineChart(){
+export default function BarChart(){
     const data=[200,250,190,100,120,80,210,75,39]
     const svgRef = useRef()
 
@@ -19,23 +19,20 @@ export default function LineChart(){
          .style('overflow', 'visible')
 
     // setting up scaling
-    const xScale = d3.scaleLinear()
-        .domain([0, data.length])
-        .range([0, w]);
+    const xScale = d3.scaleBand()
+        .domain(data.map((val,i)=>i+1))
+        .range([0, w])
+        .padding(0.8)
     const yScale = d3.scaleLinear()
         .domain([0, h])
         .range([h, 0]);
-    const generateScaleLine= d3.line()
-                                .x((d,i)=>xScale(i))
-                                .y(yScale)
-                                .curve(d3.curveCardinal);
 
     // setting the axes
     const xAxis = d3.axisBottom(xScale)
       .ticks(data.length)
-      .tickFormat(i=>i)
+    //   .tickFormat(i=>i)
     const yAxis = d3.axisLeft(yScale)
-      .ticks(5)
+      .ticks(3)
     svg.append('g')
         .call(xAxis)
         .attr('transform', `translate(0, ${h})`)
@@ -43,13 +40,17 @@ export default function LineChart(){
         .call(yAxis)
 
     // setting up data for svg
-    svg.selectAll('.line')
-       .data([data])
-       .join('path')
-         .attr('d', d=>generateScaleLine(d))
+    svg.selectAll('.bar')
+       .data(data)
+       .join('rect')
+         .attr('x', (val, i)=> xScale(i) )
+         .attr('y', yScale )
+         .attr('width', xScale.bandwidth() )
+         .attr('height', val=> h-yScale(val) )
          .attr('fill', 'none')
          .attr('stroke', 'blue')
-
+    
+         console.log(yScale(11))
     },[data])
 
     return(
