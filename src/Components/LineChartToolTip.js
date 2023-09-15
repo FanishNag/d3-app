@@ -12,7 +12,6 @@ function LineChartTest(props) {
     
     function drawChart() {
       // Add logic to draw the chart here
-        const margin = { top: 50, right: 50, bottom: 50, left: 50 };
         const yMinValue = d3.min(data, d => d.value);
         const yMaxValue = d3.max(data, d => d.value);
         const xMinValue = d3.min(data, d => d.label);
@@ -168,7 +167,7 @@ export default function LineChartToolTip(){
     useEffect(() => {
         regenerateData();
     }, []);
-console.log(data)
+
     function regenerateData() {
         const chartData = [];
         for (let i = 0; i < 20; i++) {
@@ -183,9 +182,8 @@ console.log(data)
     }
 
     return (
-        <div style={{display:"flex", flexDirection:'row',background:'black'}}>
+        <div>
             <LineChartTest data={data} width={500} height={300} />
-            <button style={{height:300, marginTop:50}} onClick={()=>(regenerateData(), window.location.reload()) }>Change Data</button>
         </div>
     );
 }
