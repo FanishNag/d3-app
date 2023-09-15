@@ -36,51 +36,67 @@ function LineChartTest(props) {
                 .attr('width', 100)
                 .attr('height', 50)
                 .attr('class', 'tooltip')
-        
-        const xScale = d3
-                .scaleLinear()
-                .domain([xMinValue, xMaxValue])
-                .range([0, width]);
-        const yScale = d3
-                .scaleLinear()
-                .range([height, 0])
-                .domain([0, yMaxValue]);
-        const line = d3
-                .line()
-                .x(d => xScale(d.label))
-                .y(d => yScale(d.value))    
-                .curve(d3.curveMonotoneX);
-        
+
+        // setting up scaling
+        const xScale = d3.scaleLinear()
+                        .domain([xMinValue, xMaxValue])
+                        .range([0, width]);
+        const yScale = d3.scaleLinear()
+                        .domain([0, yMaxValue])
+                        .range([height, 0]);
+        const line = d3.line()
+                        .x(d => xScale(d.label))
+                        .y(d => yScale(d.value))    
+                        .curve(d3.curveCardinal);
+            
+        // setting the axes
         svg.append('g')
+            .call(d3.axisBottom(xScale).ticks(15))
+            .attr('class', 'x-axis')
+            .attr('transform', `translate(0,${height})`)
+            .attr('color', 'white')
+        svg.append('g')
+            .call(d3.axisLeft(yScale))
+            .attr('class', 'y-axis')
+            .attr('color', 'white')
+        
+        // setting up grids
+        svg.append('g')
+            .call(
+                d3.axisBottom(xScale)
+                .tickSize(-height)
+                .tickFormat(''),
+            )
             .attr('class', 'grid')
             .attr("stroke-dasharray","4")
             .attr('color', 'orange')
             .attr("stroke-width", 0.2)
-            .attr('transform', `translate(0,${height})`)
-            .call(
-            d3.axisBottom(xScale)
-                .tickSize(-height)
-                .tickFormat(''),
-            );
+            .attr('transform', `translate(0,${height})`);
         svg.append('g')
-                .attr('class', 'grid')
-                .attr("stroke-dasharray","4")
-                .attr('color', 'orange')
-                .attr("stroke-width", 0.2)
                 .call(
                     d3.axisLeft(yScale)
                     .tickSize(-width)
                     .tickFormat('')
-                );
-        svg.append('g')
-                .attr('class', 'x-axis')
-                .attr('transform', `translate(0,${height})`)
-                .call(d3.axisBottom().scale(xScale).tickSize(15));
-        svg.append('g')
-                .attr('class', 'y-axis')
-                .call(d3.axisLeft(yScale));
-        svg.append('path')
-                .datum(data)
+                )
+                .attr('class', 'grid')
+                .attr("stroke-dasharray","4")
+                .attr('color', 'orange')
+                .attr("stroke-width", 0.2);
+        
+        // setting up data for svg
+        // two methods to create chart
+        // 1.
+        // svg.append('path')
+        //         .datum(data)
+        //         .attr('d', line)
+        //         .attr('fill', 'none')
+        //         .attr('stroke', 'white')
+        //         .attr('stroke-width', 1.5)
+        
+        // 2.
+        svg.selectAll('.line')
+                .data([data])
+                .join('path')
                 .attr('d', line)
                 .attr('fill', 'none')
                 .attr('stroke', 'white')
@@ -150,7 +166,7 @@ export default function LineChartToolTip(){
     useEffect(() => {
         regenerateData();
     }, []);
-
+console.log(data)
     function regenerateData() {
         const chartData = [];
         for (let i = 0; i < 20; i++) {
