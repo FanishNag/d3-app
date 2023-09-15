@@ -101,21 +101,21 @@ function LineChartTest(props) {
                 .attr('fill', 'none')
                 .attr('stroke', 'white')
                 .attr('stroke-width', 1.5)
-
+        
+        // setting up tooltip pointer
         const focus = svg
                 .append('g')
                 .attr('class', 'focus')
                 .style('display', 'none')
                 .attr('stroke', 'white')
         focus.append('circle').attr('r', 5).attr('class', 'circle');
-
+        
+        // setting up mousemovement area and function
         svg.append('rect')
             .attr('width', width)
             .attr('height', height)
             .style('opacity', 0)
-            .on('mouseover', () => {
-                focus.style('display', null);
-            })
+            .on('mouseover',mousemove)
             .on('mouseout', () => {
                 tooltip
                     .transition()
@@ -123,10 +123,12 @@ function LineChartTest(props) {
                     .style('opacity', 0);
             })
         .on('mousemove', mousemove);
-
+        
         function mousemove(event) {
             const bisect = d3.bisector(d => d.label).left;
-            const xPos = d3.pointer(event)[0]; 
+            const xPos = d3.pointer(event)[0];
+            console.log('xPos:: ', xPos)
+            console.log('xScale.invert(xPos) :: ', xScale.invert(xPos))
             const x0 = bisect(data, xScale.invert(xPos));
             const d0 = data[x0];
             focus
