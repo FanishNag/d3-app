@@ -1,6 +1,7 @@
 import './App.css';
 import BarChart from './Components/BarChart';
 import LineChart from './Components/LineChart';
+import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <LineChart/>
       <BarChart/>
       <PieChart/>
+      <LineChartToolTip/>
     </div>
   );
 }
