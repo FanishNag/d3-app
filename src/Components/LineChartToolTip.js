@@ -24,14 +24,14 @@ function LineChartTest(props) {
                 .attr('height', height)
                 .style('margin', '10')
                 .style('padding', '50')
-                .style('border', '1px solid black')
-                .style('border', '2px solid black')
+                .style('border', '2px solid white')
                 .style('background', '#000000')
                 .style('overflow', 'visible')
 
         const tooltip = d3
                 .select(svgRef2.current)
                 .style("position", "relative")
+                .style("color", "white")
                 .text("a simple tooltip")
                 .attr('width', 100)
                 .attr('height', 50)
@@ -165,9 +165,9 @@ export default function LineChartToolTip(){
     }
 
     return (
-        <div style={{display:"flex", flexDirection:'row',}}>
+        <div style={{display:"flex", flexDirection:'row',background:'black'}}>
             <LineChartTest data={data} width={500} height={300} />
-            <button onClick={()=>(regenerateData(), window.location.reload()) }>Change Data</button>
+            <button style={{height:300, marginTop:50}} onClick={()=>(regenerateData(), window.location.reload()) }>Change Data</button>
         </div>
     );
 }
