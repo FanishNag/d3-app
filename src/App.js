@@ -1,4 +1,5 @@
 import './App.css';
+import AnimatedLineChart from './Components/AnimatedLineChart';
 import BarChart from './Components/BarChart';
 import LineChart from './Components/LineChart';
 import LineChartToolTip from './Components/LineChartToolTip';
@@ -11,6 +12,7 @@ function App() {
       <BarChart/>
       <PieChart/>
       <LineChartToolTip/>
+      <AnimatedLineChart/>
     </div>
   );
 }
