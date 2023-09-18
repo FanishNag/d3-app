@@ -1,6 +1,7 @@
 import './App.css';
 import AnimatedBarChart from './Components/AnimatedBarChart';
 import AnimatedLineChart from './Components/AnimatedLineChart';
+import AnimatedPieChart from './Components/AnimatedPieChart';
 import BarChart from './Components/BarChart';
 import BarChartTooTip from './Components/BarChartToolTip';
 import Header from './Components/Header';
@@ -19,6 +20,7 @@ function App() {
       <Header header={'Animated Chart'}/>
         <AnimatedLineChart/>
         <AnimatedBarChart/>
+        <AnimatedPieChart/>
       <Header header={'Interactive Chart'}/>
         <LineChartToolTip/>
         <BarChartTooTip/>
