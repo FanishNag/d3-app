@@ -127,8 +127,6 @@ function LineChartTest(props) {
         function mousemove(event) {
             const bisect = d3.bisector(d => d.label).left;
             const xPos = d3.pointer(event)[0];
-            console.log('xPos:: ', xPos)
-            console.log('xScale.invert(xPos) :: ', xScale.invert(xPos))
             const x0 = bisect(data, xScale.invert(xPos));
             const d0 = data[x0];
             focus
