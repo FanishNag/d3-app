@@ -7,7 +7,7 @@ function LineChartTest(props) {
     const svgRef2 = useRef()
   
     useEffect(() => {
-      drawChart();
+        drawChart();
     }, [data]);
     
     function drawChart() {
@@ -49,12 +49,12 @@ function LineChartTest(props) {
                         .curve(d3.curveCardinal);
             
         // setting the axes
-        svg.append('g')
+        let x_axis =svg.append('g')
             .call(d3.axisBottom(xScale).ticks(15))
             .attr('class', 'x-axis')
             .attr('transform', `translate(0,${height})`)
             .attr('color', 'white')
-        svg.append('g')
+        let y_axis = svg.append('g')
             .call(d3.axisLeft(yScale))
             .attr('class', 'y-axis')
             .attr('color', 'white')
@@ -100,6 +100,7 @@ function LineChartTest(props) {
                 .attr('fill', 'none')
                 .attr('stroke', 'white')
                 .attr('stroke-width', 1.5)
+                .attr('class', 'line-graph')
         
         // setting up tooltip pointer
         const focus = svg
@@ -150,8 +151,13 @@ function LineChartTest(props) {
                     `translate(${xScale(d0.label)}px,${yScale(d0.value)-300}px)`,
             );
         }
-
+    
     }
+
+    d3.select('.line-graph').remove()
+    d3.select('.y-axis').remove()
+    d3.selectAll('.grid').remove()
+    d3.selectAll('.focus').remove()
 
     return(
         <div>
@@ -167,7 +173,6 @@ export default function LineChartToolTip(){
     useEffect(() => {
         regenerateData();
     }, []);
-
     function regenerateData() {
         const chartData = [];
         for (let i = 0; i < 20; i++) {
@@ -182,8 +187,9 @@ export default function LineChartToolTip(){
     }
 
     return (
-        <div>
-            <LineChartTest data={data} width={500} height={300} />
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <LineChartTest data={data} width={400} height={300} />
+            <button style={{height:300, width:100, marginTop:50}} onClick={()=>(regenerateData()) }>Change Data</button>
         </div>
     );
 }

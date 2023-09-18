@@ -73,8 +73,8 @@ export default function BarChartTooTip(){
     const updateSvg = svg.selectAll('.bar')
        .data(data)
 
-    const rect = updateSvg.join('g');
-    rect.append('rect')
+    const barGroup = updateSvg.join('g');
+    const rect = barGroup.append('rect')
     .attr('x', (val, i)=> xScale(i))
     .attr('y', yScale )
     .attr('width', xScale.bandwidth())
@@ -83,20 +83,22 @@ export default function BarChartTooTip(){
     .attr('stroke', 'orange')
     .style('color', 'black')
 
-    const text = rect.append('text')
+    const textSvg = barGroup.append('text')
     .attr('x', (val, i)=>xScale(i))
-    .attr('y', (val, i)=>yScale(val))
+    .attr('y', (val, i)=>yScale(val)-10)
     .attr('text-anchor', 'start')
     .text((val, i)=>val)
     .style('fill', 'white')
     .style('font-size', '12px')
     .attr('class', 'text-value')
     
-    rect.on('mousemove', function mouseOver(event, i){
-          d3.select(this)
-          .attr('stroke', 'orange')
-          .attr('opacity', 0.9)
-          .style('stroke-width', 5)
+    barGroup.on('mouseenter', function mouseOver(event, i){
+        d3.select(this).select('rect')
+            .attr('stroke', 'orange')
+            .attr('width', xScale.bandwidth()+5)
+            
+        d3.selectAll('.text-value')
+          .text((val, key)=>(val-i)==0 ? null : val-i)
 
           svg.append('line')
           .attr('x1', 0)
@@ -112,6 +114,9 @@ export default function BarChartTooTip(){
     .on('mouseout', (event, i)=>{
         rect
           .style('stroke-width', 0)
+          .attr('width', xScale.bandwidth())
+          
+        d3.selectAll('.text-value').text((val, key)=>val)
 
         d3.selectAll('.bar-line')
         .remove()
