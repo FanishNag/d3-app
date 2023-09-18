@@ -188,8 +188,12 @@ export default function LineChartToolTip(){
 
     return (
         <div style={{display:'flex',flexDirection:'row'}}>
-            <LineChartTest data={data} width={400} height={300} />
-            <button style={{height:300, width:100, marginTop:50}} onClick={()=>(regenerateData()) }>Change Data</button>
+            <LineChartTest data={data} width={440} height={300} />
+            <button
+              style={{height:300, width:60, marginTop:50}}
+              onClick={()=>(regenerateData()) }>
+                Change Data
+            </button>
         </div>
     );
 }
