@@ -11,16 +11,27 @@ import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 
 function App() {
+  const data=[200,250,190,100,120,80,210,75,39]
+  const chartData = []
+  
+  const randomData=()=>{
+  for (let i = 0; i <= 10; i++) {
+    const value = Math.floor(Math.random() * 200);
+    chartData.push(value);
+    }
+  return chartData
+  }
+  randomData()
   return (
     <div className="App">
       <Header header={'Simple Charts'}/>
-        <LineChart/>
-        <BarChart/>
-        <PieChart/>
+        <LineChart data={chartData}/>
+        <BarChart data={chartData} />
+        <PieChart data={chartData}/>
       <Header header={'Animated Chart'}/>
-        <AnimatedLineChart/>
-        <AnimatedBarChart/>
-        <AnimatedPieChart/>
+        <AnimatedLineChart data={chartData}/>
+        <AnimatedBarChart data={chartData}/>
+        <AnimatedPieChart data={chartData}/>
       <Header header={'Interactive Chart'}/>
         <LineChartToolTip/>
         <BarChartTooTip/>

@@ -109,6 +109,19 @@ function LineChartTest(props) {
                 .style('display', 'none')
                 .attr('stroke', 'white')
         focus.append('circle').attr('r', 5).attr('class', 'circle');
+
+    // data points
+    svg.selectAll()
+      .data(data)
+      .enter()
+      .append("circle")
+        .attr('class', 'data-points')
+        .attr("fill", "white")
+        .attr("stroke", "none")
+        .attr("cx", function(d) { return xScale(d.label) })
+        .attr("cy", function(d) { return yScale(d.value) })
+        .attr("r", 3)
+
         
         // setting up mousemovement area and function
         svg.append('rect')
@@ -156,6 +169,7 @@ function LineChartTest(props) {
     d3.select('.y-axis').remove()
     d3.selectAll('.grid').remove()
     d3.selectAll('.focus').remove()
+    d3.selectAll('.data-points').remove()
 
     return(
         <div>

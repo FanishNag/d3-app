@@ -1,8 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function AnimatedLineChart(){
-    const data=[200,250,190,100,120,80,210,75,39]
+export default function AnimatedLineChart({data}){
     const svgRef = useRef()
 
     useEffect(()=>{

@@ -1,18 +1,18 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function PieChart(){
-    const data=[
-        { area:'a', value:200},
-        { area:'b', value:250},
-        { area:'c', value:190},
-        { area:'d', value:100},
-        { area:'e', value:120},
-        { area:'f', value:80},
-        { area:'g', value:210},
-        { area:'h', value:75},
-        { area:'i', value:39}
-    ]
+export default function PieChart({data}){
+    // const data=[
+    //     { area:'a', value:200},
+    //     { area:'b', value:250},
+    //     { area:'c', value:190},
+    //     { area:'d', value:100},
+    //     { area:'e', value:120},
+    //     { area:'f', value:80},
+    //     { area:'g', value:210},
+    //     { area:'h', value:75},
+    //     { area:'i', value:39}
+    // ]
     const svgRef = useRef()
 
     useEffect(()=>{
@@ -30,7 +30,9 @@ export default function PieChart(){
          .style('background', '#000000')
 
     // setting up chart
-    const formattedData = d3.pie().value(d=>d.value)(data)
+    const pie = d3.pie()
+    const pieArc = pie(data)
+    const formattedData = d3.pie().value(d=>d.value)(pieArc)
     const arcGenerator = d3.arc().innerRadius(0).outerRadius(radius)
     const color = d3.scaleOrdinal().range(d3.schemeSet2)
 
@@ -49,7 +51,7 @@ export default function PieChart(){
     svg.selectAll()
         .data(formattedData)
         .join('text')
-            .text(d=>d.data.area)
+            .text(d=>d.data.data)
             .attr('transform', d=>`translate(${arcGenerator.centroid(d)})`)
             .style('text-anchor', 'middle')
 
