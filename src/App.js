@@ -7,6 +7,7 @@ import BarChartTooTip from './Components/BarChartToolTip';
 import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
 import LineChart from './Components/LineChart';
+import LineChartData from './Components/LineChartData';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 
@@ -24,7 +25,8 @@ function App() {
   randomData()
   return (
     <div className="App">
-      <Header header={'Simple Charts'}/>
+      <LineChartData/>
+      {/* <Header header={'Simple Charts'}/>
         <LineChart data={chartData}/>
         <BarChart data={chartData} />
         <PieChart data={chartData}/>
@@ -35,7 +37,7 @@ function App() {
       <Header header={'Interactive Chart'}/>
         <LineChartToolTip/>
         <BarChartTooTip/>
-        <InteractivePieChart/>
+        <InteractivePieChart/> */}
     </div>
   );
 }
