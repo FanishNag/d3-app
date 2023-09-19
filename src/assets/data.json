@@ -1,0 +1,123 @@
+{
+    "all_commodity_list": [
+        "Paddy(Dhan)(Common)"
+    ],
+    "data": [
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2348.43,
+            "min_price": 2254.29,
+            "modal_price": 2314.29,
+            "price_date": "Mon, 21 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "B P T"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2248.43,
+            "min_price": 2152.14,
+            "modal_price": 2208.86,
+            "price_date": "Mon, 21 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "I.R. 64"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2138.57,
+            "min_price": 2136.43,
+            "modal_price": 2137.5,
+            "price_date": "Mon, 21 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "Swarna Masuri (New)"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2342.71,
+            "min_price": 2250.0,
+            "modal_price": 2310.0,
+            "price_date": "Sun, 20 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "B P T"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2268.07,
+            "min_price": 2178.07,
+            "modal_price": 2236.36,
+            "price_date": "Sun, 20 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "I.R. 64"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2145.71,
+            "min_price": 2143.57,
+            "modal_price": 2144.64,
+            "price_date": "Sun, 20 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "Swarna Masuri (New)"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2337.71,
+            "min_price": 2235.0,
+            "modal_price": 2301.43,
+            "price_date": "Sat, 19 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "B P T"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2314.07,
+            "min_price": 2189.93,
+            "modal_price": 2268.21,
+            "price_date": "Sat, 19 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "I.R. 64"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2150.0,
+            "min_price": 2147.86,
+            "modal_price": 2148.93,
+            "price_date": "Sat, 19 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "Swarna Masuri (New)"
+        },
+        {
+            "commodity": "Paddy(Dhan)(Common)",
+            "district": "Dhamtari",
+            "market": "Dhamtari",
+            "max_price": 2333.43,
+            "min_price": 2209.29,
+            "modal_price": 2288.57,
+            "price_date": "Fri, 18 Aug 2023",
+            "state": "Chhattisgarh",
+            "variety": "B P T"
+        }
+    ],
+    "district_list": [
+        "Dhamtari"
+    ],
+    "market_list": [
+        "Dhamtari"
+    ]
+}
