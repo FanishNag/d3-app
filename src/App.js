@@ -3,6 +3,7 @@ import AnimatedBarChart from './Components/AnimatedBarChart';
 import AnimatedLineChart from './Components/AnimatedLineChart';
 import AnimatedPieChart from './Components/AnimatedPieChart';
 import BarChart from './Components/BarChart';
+import BarChartData from './Components/BarChartData';
 import BarChartTooTip from './Components/BarChartToolTip';
 import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
@@ -10,9 +11,9 @@ import LineChart from './Components/LineChart';
 import LineChartData from './Components/LineChartData';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
+import marketData from './assets/data.json';
 
 function App() {
-  const data=[200,250,190,100,120,80,210,75,39]
   const chartData = []
   
   const randomData=()=>{
@@ -25,8 +26,10 @@ function App() {
   randomData()
   return (
     <div className="App">
-      <LineChartData/>
-      {/* <Header header={'Simple Charts'}/>
+      <Header header={'with real data'}/>
+        <LineChartData data={marketData}/>
+        <BarChartData data={marketData.data}/>
+      <Header header={'Simple Charts'}/>
         <LineChart data={chartData}/>
         <BarChart data={chartData} />
         <PieChart data={chartData}/>
@@ -37,7 +40,7 @@ function App() {
       <Header header={'Interactive Chart'}/>
         <LineChartToolTip/>
         <BarChartTooTip/>
-        <InteractivePieChart/> */}
+        <InteractivePieChart/>
     </div>
   );
 }
