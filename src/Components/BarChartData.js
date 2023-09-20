@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import moment from "moment/moment";
 
 export default function BarChartData({data}){
-    console.log(data)
     const svgRef = useRef()
 
     useEffect(()=>{
@@ -69,7 +68,6 @@ export default function BarChartData({data}){
         .call(yAxisGrid)
 
     // setting up data for svg
-    console.log(d3.max(data, function(d){return d.modal_price}))
     svg.selectAll('.bar')
        .data(data)
        .join('rect')

@@ -11,6 +11,7 @@ import LineChart from './Components/LineChart';
 import LineChartData from './Components/LineChartData';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
+import PieChartData from './Components/PieChartData';
 import marketData from './assets/data.json';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Header header={'with real data'}/>
         <LineChartData data={marketData}/>
         <BarChartData data={marketData.data}/>
+        <PieChartData data={marketData.data}/>
       <Header header={'Simple Charts'}/>
         <LineChart data={chartData}/>
         <BarChart data={chartData} />
