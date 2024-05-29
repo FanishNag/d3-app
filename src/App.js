@@ -8,6 +8,7 @@ import BarChartTooTip from './Components/BarChartToolTip';
 import DynamicRangeLineChart from './Components/DynamicRangeLineChart';
 import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
+import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
 import LineChartData from './Components/LineChartData';
 import LineChartNew from './Components/LineChartNew';
@@ -58,7 +59,11 @@ function App() {
         <DynamicRangeLineChart marketData={marketData.data}/>
       <Header header={'Ultimate Chart'}/>
         <UltimateLineChart
-        data={marketData}
+          data={marketData}
+        />
+      <Header header={'Zoom chart'}/>
+        <LineChartBrushZoom
+          data={chartData}
         />
     </div>
   );
