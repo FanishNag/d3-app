@@ -122,8 +122,8 @@ export default function LineChartBrushZoom({ data }) {
       }
 
     // remove existance graph
-    d3.selectAll(".tick").remove()
-    d3.selectAll("path").remove()
+    svg.selectAll(".tick").remove()
+    svg.selectAll("path").remove()
     // Update axis and line position
 
       x.transition().duration(1000).call(d3.axisBottom(xScale));
@@ -164,7 +164,7 @@ export default function LineChartBrushZoom({ data }) {
         .attr("stroke", "white")
         .attr("stroke-width", 1.5);
     }
-
+    
     // Initial rendering of the line
     line
       .append("path")
