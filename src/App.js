@@ -10,13 +10,22 @@ import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
 import LineChart from './Components/LineChart';
 import LineChartData from './Components/LineChartData';
+import LineChartNew from './Components/LineChartNew';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 import PieChartData from './Components/PieChartData';
 import RangeSlider from './Components/RangeSlider/RangeSlider';
+import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
 function App() {
   const chartData = []
+  const ultimateData = [
+    {a:'100', b:'100'},
+    {a:'200', b:'200'},
+    {a:'300', b:'300'},
+    {a:'400', b:'400'},
+    {a:'500', b:'500'},
+  ]
   
   const randomData=()=>{
   for (let i = 0; i <= 10; i++) {
@@ -29,6 +38,7 @@ function App() {
   return (
     <div className="App">
       <Header header={'Simple Charts'}/>
+        {/* <LineChartNew data={chartData}/> */}
         <LineChart data={chartData}/>
         <BarChart data={chartData} />
         <PieChart data={chartData}/>
@@ -46,6 +56,10 @@ function App() {
         <PieChartData data={marketData.data}/>
       <Header header={'Dynamic Range'}/>
         <DynamicRangeLineChart marketData={marketData.data}/>
+      <Header header={'Ultimate Chart'}/>
+        <UltimateLineChart
+        data={marketData}
+        />
     </div>
   );
 }
