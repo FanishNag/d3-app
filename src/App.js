@@ -10,7 +10,6 @@ import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
 import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
-import LineChartData from './Components/LineChartData';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 import PieChartData from './Components/PieChartData';
