@@ -1,211 +1,176 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-function LineChartTest(props) {
-    const { data, width, height } = props;
-    const svgRef = useRef()
-    const svgRef2 = useRef()
-  
-    useEffect(() => {
-        drawChart();
-    }, [data]);
+export default function LineChartToolTip({data, lable, value}){
+    const svgRef =  useRef()
+
+    useEffect(()=>{
+      // setting up svg
+      const w = 500;
+      const h = 300;
+      const svg = d3.select(svgRef.current)
+      .attr('width', w)
+      .attr('height', h)
+      .style('margin', '10')
+      .style('padding', '50')
+      .style('border', '2px solid black')
+      .style('background', '#000000')
+      .style('overflow', 'visible')
+
+      // setting up for tooltip
+      const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("background-color", "rgba(0, 0, 0, 0.7)")
+      .style("color", "white")
+      .style("border-radius", "5px");
+      
+      const isDate = data[0][lable] instanceof Date
+      console.log(isDate)
+
+      const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
+                            d3.scaleLinear().domain([0, data.length]).range([0, w]);
+
+    // setting up scaling
+    const xScale = DynamicXScale
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d){return d[value]})])
+        .range([h, 0])
+        .nice()
+
+    const generateScaleLine = d3.line()
+                              .x((d)=>xScale(d[lable]))
+                              .y((d)=>yScale(d[value]))
+                              .curve(d3.curveCardinal)
+
+    // setting the axes
+    const xAxis = d3.axisBottom(xScale)
+      
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(5)
     
-    function drawChart() {
-      // Add logic to draw the chart here
-        const yMinValue = d3.min(data, d => d.value);
-        const yMaxValue = d3.max(data, d => d.value);
-        const xMinValue = d3.min(data, d => d.label);
-        const xMaxValue = d3.max(data, d => d.label);
+    // setting up grids
+    const xAxisGrid = d3.axisBottom(xScale)
+      .ticks(data.length)
+      .tickSize(-h)
+      .tickFormat('')
 
-        const svg = d3
-                .select(svgRef.current)
-                .attr('width', width)
-                .attr('height', height)
-                .style('margin', '10')
-                .style('padding', '50')
-                .style('border', '2px solid white')
-                .style('background', '#000000')
-                .style('overflow', 'visible')
+    const yAxisGrid = d3.axisLeft(yScale)
+      .ticks(5)
+      .tickSize(-w)
+      .tickFormat('')
+    
+    // axes
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr('color', 'white')
+        .call(xAxis)
+    svg.append('g')
+        .attr('color', 'white')
+        .call(yAxis)
 
-        const tooltip = d3
-                .select(svgRef2.current)
-                .style("position", "relative")
-                .style("color", "white")
-                .text("a simple tooltip")
-                .attr('width', 100)
-                .attr('height', 50)
-                .attr('class', 'tooltip')
+    // grid
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
+        .call(xAxisGrid)
 
-        // setting up scaling
-        const xScale = d3.scaleLinear()
-                        .domain([xMinValue, xMaxValue])
-                        .range([0, width]);
-        const yScale = d3.scaleLinear()
-                        .domain([0, yMaxValue])
-                        .range([height, 0]);
-        const line = d3.line()
-                        .x(d => xScale(d.label))
-                        .y(d => yScale(d.value))    
-                        .curve(d3.curveCardinal);
-            
-        // setting the axes
-        let x_axis =svg.append('g')
-            .call(d3.axisBottom(xScale).ticks(15))
-            .attr('class', 'x-axis')
-            .attr('transform', `translate(0,${height})`)
-            .attr('color', 'white')
-        let y_axis = svg.append('g')
-            .call(d3.axisLeft(yScale))
-            .attr('class', 'y-axis')
-            .attr('color', 'white')
+    svg.append('g')
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
+        .call(yAxisGrid)
+    
+    // lable
+    svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", w/2)
+        .attr("y", h + 40)
+        .style("color", '#fff')
+        .text(lable?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
         
-        // setting up grids
-        svg.append('g')
-            .call(
-                d3.axisBottom(xScale)
-                .tickSize(-height)
-                .tickFormat(''),
-            )
-            .attr('class', 'grid')
-            .attr("stroke-dasharray","4")
-            .attr('color', 'orange')
-            .attr("stroke-width", 0.2)
-            .attr('transform', `translate(0,${height})`);
-        svg.append('g')
-                .call(
-                    d3.axisLeft(yScale)
-                    .tickSize(-width)
-                    .tickFormat('')
-                )
-                .attr('class', 'grid')
-                .attr("stroke-dasharray","4")
-                .attr('color', 'orange')
-                .attr("stroke-width", 0.2);
-        
-        // setting up data for svg
-        // two methods to create chart
-        // 1.
-        // svg.append('path')
-        //         .datum(data)
-        //         .attr('d', line)
-        //         .attr('fill', 'none')
-        //         .attr('stroke', 'white')
-        //         .attr('stroke-width', 1.5)
-        
-        // 2.
-        svg.selectAll('.line')
-                .data([data])
-                .join('path')
-                .attr('d', line)
-                .attr('fill', 'none')
-                .attr('stroke', 'white')
-                .attr('stroke-width', 1.5)
-                .attr('class', 'line-graph')
-        
-        // setting up tooltip pointer
-        const focus = svg
-                .append('g')
-                .attr('class', 'focus')
-                .style('display', 'none')
-                .attr('stroke', 'white')
-        focus.append('circle').attr('r', 5).attr('class', 'circle');
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("x", -h/2)
+        .attr("y", -35)
+        .attr("transform", "rotate(-90)")
+        .text(value?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
 
+    // setting up data for svg
+    svg.selectAll('.line')
+       .data([data])
+       .join('path')
+         .attr('d', d=>generateScaleLine(d))
+         .attr('fill', 'none')
+         .attr('stroke', 'white')
+         .attr("stroke-width", 1.5)
+         .attr("end", function(){dataPoints()});
+    
     // data points
-    svg.selectAll()
-      .data(data)
-      .enter()
-      .append("circle")
-        .attr('class', 'data-points')
-        .attr("fill", "white")
-        .attr("stroke", "none")
-        .attr("cx", function(d) { return xScale(d.label) })
-        .attr("cy", function(d) { return yScale(d.value) })
-        .attr("r", 3)
-
-        
-        // setting up mousemovement area and function
-        svg.append('rect')
-            .attr('width', width)
-            .attr('height', height)
-            .style('opacity', 0)
-            .on('mouseover',mousemove)
-            .on('mouseout', () => {
-                tooltip
-                    .transition()
-                    .duration(300)
-                    .style('opacity', 0);
-            })
-        .on('mousemove', mousemove);
-        
-        function mousemove(event) {
-            const bisect = d3.bisector(d => d.label).left;
-            const xPos = d3.pointer(event)[0];
-            const x0 = bisect(data, xScale.invert(xPos));
-            const d0 = data[x0];
-            focus
-            .attr('transform',`translate(${xScale(d0.label)},${yScale(d0.value)})`)
-            .style('opacity', 1)
-            .style('display', 'flex')
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", 0.9);
-            tooltip
-                .html(d0.tooltipContent)
-                .style('border', '1px solid black')
-                .style('border-radius', '5px')
-                .style('width', '80px')
-                .style('height', '50px')
-                .style('background', 'black')
-                .style('color', 'white')
-                .style(
-                    'transform',
-                    `translate(${xScale(d0.label)}px,${yScale(d0.value)-300}px)`,
-            );
+    function dataPoints(){
+    // tooltip-functions
+    function mouseover(d){
+        const toolTip=()=>{
+                return `${"X"}: ${d[lable]}<br>${"Y"}: ${d[value]}`
         }
-    
+
+        tooltip
+        .style("visibility", "visible")
+        .style("padding", "6px")
+        .html(toolTip);
+
+        d3.select(this)
+            .attr("stroke", "steelblue") 
+            .attr("stroke-width", 4);
     }
 
-    d3.select('.line-graph').remove()
-    d3.select('.y-axis').remove()
-    d3.selectAll('.grid').remove()
-    d3.selectAll('.focus').remove()
-    d3.selectAll('.data-points').remove()
+    function mousemove(event){
+        tooltip
+        .style("top", event.pageY - 10 + "px")
+        .style("left", event.pageX + 10 + "px");
+    }
+    
+    function mouseout(){
+        tooltip.style("visibility", "hidden");
+
+        d3.select(this).
+        attr("stroke", "none"); // Restore default stroke color on mouseout
+    }
+
+    // data-points
+    svg.selectAll('.dot')
+    .data(data)
+    .enter()
+    .append("circle")
+        .attr('class', 'data-points-uc')
+        .attr("fill", "white")
+        .attr("stroke", "none")
+        .attr("cx", function(d) { return xScale(d[lable]) })
+        .attr("cy", function(d) { return yScale(d[value]) })
+        .attr("r", 3)
+        .text(d=>d[value])
+        .on("mouseover", function(event, d){mouseover.call(this, d)})
+        .on("mousemove", function(event){mousemove(event)})
+        .on("mouseout", function(){ mouseout.call(this)})        
+    }
+                    
+    },[data])
 
     return(
         <div>
             <svg ref={svgRef}></svg>
-            <div ref={svgRef2}></div>
         </div>
     )
-  }
-
-export default function LineChartToolTip(){
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        regenerateData();
-    }, []);
-    function regenerateData() {
-        const chartData = [];
-        for (let i = 0; i < 20; i++) {
-        const value = Math.floor(Math.random() * i + 3);
-        chartData.push({
-            label: i,
-            value,
-            tooltipContent: `<b>x: </b>${i}<br><b>y: </b>${value}`
-        });
-        }
-        setData(chartData)
-    }
-
-    return (
-        <div style={{display:'flex',flexDirection:'row'}}>
-            <LineChartTest data={data} width={440} height={300} />
-            <button
-              style={{height:300, width:60, marginTop:50}}
-              onClick={()=>(regenerateData()) }>
-                Change Data
-            </button>
-        </div>
-    );
 }

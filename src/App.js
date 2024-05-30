@@ -11,7 +11,6 @@ import InteractivePieChart from './Components/InteractivePieChart';
 import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
 import LineChartData from './Components/LineChartData';
-import LineChartNew from './Components/LineChartNew';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
 import PieChartData from './Components/PieChartData';
@@ -20,12 +19,29 @@ import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
 function App() {
   const chartData = []
-  const ultimateData = [
-    {a:'100', b:'100'},
-    {a:'200', b:'200'},
-    {a:'300', b:'300'},
-    {a:'400', b:'400'},
-    {a:'500', b:'500'},
+  const DataLineChart2 = [
+    {date: 0, amount : 250},
+    {date: 1, amount : 350},
+    {date: 2, amount : 150},
+    {date: 3, amount : 850},
+    {date: 4, amount : 1650},
+    {date: 5, amount : 750},
+    {date: 6, amount : 850},
+    {date: 7, amount : 550},
+    {date: 8, amount : 1050},
+    {date: 9, amount : 450},
+  ]
+  const DataLineChart = [
+    {date: new Date("Thu, 01 Sep 2023"), amount : 250},
+    {date: new Date("Thu, 02 Sep 2023"), amount : 350},
+    {date: new Date("Thu, 03 Sep 2023"), amount : 150},
+    {date: new Date("Thu, 04 Sep 2023"), amount : 850},
+    {date: new Date("Thu, 05 Sep 2023"), amount : 1650},
+    {date: new Date("Thu, 06 Sep 2023"), amount : 750},
+    {date: new Date("Thu, 07 Sep 2023"), amount : 850},
+    {date: new Date("Thu, 08 Sep 2023"), amount : 550},
+    {date: new Date("Thu, 09 Sep 2023"), amount : 1050},
+    {date: new Date("Thu, 10 Sep 2023"), amount : 450},
   ]
   
   const randomData=()=>{
@@ -38,33 +54,24 @@ function App() {
   randomData()
   return (
     <div className="App">
-      <Header header={'Simple Charts'}/>
-        {/* <LineChartNew data={chartData}/> */}
-        <LineChart data={chartData}/>
-        <BarChart data={chartData} />
-        <PieChart data={chartData}/>
-      <Header header={'Animated Chart'}/>
-        <AnimatedLineChart data={chartData}/>
-        <AnimatedBarChart data={chartData}/>
-        <AnimatedPieChart data={chartData}/>
-      <Header header={'Interactive Chart'}/>
-        <LineChartToolTip/>
-        <BarChartTooTip/>
-        <InteractivePieChart/>
-      <Header header={'With real data'}/>
+      <Header header={'Line Charts'}/>
+        <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
+        <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
         <LineChartData data={marketData}/>
-        <BarChartData data={marketData.data}/>
-        <PieChartData data={marketData.data}/>
-      <Header header={'Dynamic Range'}/>
+        <UltimateLineChart data={marketData}/>
         <DynamicRangeLineChart marketData={marketData.data}/>
-      <Header header={'Ultimate Chart'}/>
-        <UltimateLineChart
-          data={marketData}
-        />
-      <Header header={'Zoom chart'}/>
-        <LineChartBrushZoom
-          data={chartData}
-        />
+        <LineChartBrushZoom data={chartData}/>
+      <Header header={'Bar Chart'}/>
+        <BarChart data={chartData} />
+        <AnimatedBarChart data={chartData}/>
+        <BarChartTooTip/>
+        <BarChartData data={marketData.data}/>
+        <AnimatedLineChart data={chartData}/>
+      <Header header={'Pie Chart'}/>
+        <PieChart data={chartData}/>
+        <AnimatedPieChart data={chartData}/>
+        <PieChartData data={marketData.data}/>
+        <InteractivePieChart/>
     </div>
   );
 }

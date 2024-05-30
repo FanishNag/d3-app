@@ -23,7 +23,7 @@ export default function LineChartData(){
         .domain(d3.extent(marketData.data, function(d){return new Date(d.price_date)}))
         .range([0, w]);
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(marketData.data, function(d){return d.modal_price})])
+        .domain([d3.min(marketData.data, function(d){return d.modal_price}), d3.max(marketData.data, function(d){return d.modal_price})])
         .range([h, 0])
 
     const generateScaleLine= d3.line()

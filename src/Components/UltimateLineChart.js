@@ -177,8 +177,6 @@ export default function UltimateLineChart({data}){
 
     const handleSliderChange = (newValue) => {
         setSliderValue(newValue);
-        // if(sliderValue!==newValue){
-            // }
         };
     removeElements()
 
