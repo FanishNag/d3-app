@@ -3,7 +3,6 @@ import AnimatedBarChart from './Components/AnimatedBarChart';
 import AnimatedLineChart from './Components/AnimatedLineChart';
 import AnimatedPieChart from './Components/AnimatedPieChart';
 import BarChart from './Components/BarChart';
-import BarChartData from './Components/BarChartData';
 import BarChartTooTip from './Components/BarChartToolTip';
 import { DateConverter } from './Components/Converter/DateConverter';
 import Header from './Components/Header';
@@ -63,7 +62,6 @@ function App() {
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <BarChartTooTip data={DataLineChart} lable={'date'} value={'amount'}/>
-        <BarChartData data={marketData.data}/>
       <Header header={'Pie Chart'}/>
         <PieChart data={chartData}/>
         <AnimatedPieChart data={chartData}/>

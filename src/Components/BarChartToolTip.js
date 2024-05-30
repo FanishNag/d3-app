@@ -19,12 +19,15 @@ export default function BarChart({data, lable, value}){
 
     // setting up scaling
     const isDate = data[0][lable] instanceof Date
-    const dateFormat = d3.timeFormat('%d/%m/%y')
 
-    const xScale = d3.scaleBand()
-        .domain(data.map((d,i)=>isDate ? dateFormat(d[lable]) : d[lable]))
-        .range([0, w])
-        .padding(0.8)
+    const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([5, w]) : 
+                            d3.scaleBand()
+                            .domain(data.map((d,i)=>d[lable]))
+                            .range([0, w])
+                            .padding(0.8);
+
+    const xScale =DynamicXScale
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d){return d[value]})])
         .range([h, 0]);
@@ -100,9 +103,9 @@ export default function BarChart({data, lable, value}){
     const barGroup = bar.join('g');
 
     const rect = barGroup.append('rect')
-    .attr('x', (d)=> xScale(isDate ? dateFormat(d[lable]) : d[lable]))
+    .attr('x', (d)=> isDate ? xScale(d[lable])-5 : xScale(d[lable]))
     .attr('y', (d)=> yScale(d[value]))
-    .attr('width', xScale.bandwidth())
+    .attr('width', isDate ? 10 : xScale.bandwidth())
     .attr('height', d=> h-yScale(d[value]))
     .attr('fill', 'orange')
     .attr('stroke', 'orange')
@@ -110,7 +113,7 @@ export default function BarChart({data, lable, value}){
     
     // adding text ton top of the bar
     const textSvg = barGroup.append('text')
-    .attr('x', (d)=>xScale(isDate ? dateFormat(d[lable]) : d[lable]))
+    .attr('x', (d)=>isDate ? xScale(d[lable])-5 : xScale(d[lable]))
     .attr('y', (d)=>yScale(d[value])-10)
     .attr('text-anchor', 'start')
     .text((d)=>d[value])
@@ -122,8 +125,8 @@ export default function BarChart({data, lable, value}){
         d3.select(this)
         .select('rect')
         .attr('stroke', 'orange')
-        .attr('x', (d)=>xScale(isDate ? dateFormat(d[lable]) : d[lable])-5)
-        .attr('width', xScale.bandwidth()+10)
+        .attr('x', (d)=> isDate ? xScale(d[lable])-10 : xScale(d[lable])-5)
+        .attr('width', isDate ? 20 :xScale.bandwidth()+10)
         
         d3.selectAll('.text-value')
           .text((d)=>(d[value]-i[value])==0 ? null : d[value]-i[value])
@@ -142,8 +145,8 @@ export default function BarChart({data, lable, value}){
     .on('mouseout', (event, i)=>{
         rect
           .style('stroke-width', 0)
-          .attr('x', (d)=>xScale(isDate ? dateFormat(d[lable]) : d[lable]))
-          .attr('width', xScale.bandwidth())
+          .attr('x', (d)=> isDate ? xScale(d[lable])-5 : xScale(d[lable]))
+          .attr('width', isDate ? 10 : xScale.bandwidth())
           
         d3.selectAll('.text-value').text((d)=>d[value])
 
