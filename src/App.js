@@ -5,7 +5,7 @@ import AnimatedPieChart from './Components/AnimatedPieChart';
 import BarChart from './Components/BarChart';
 import BarChartData from './Components/BarChartData';
 import BarChartTooTip from './Components/BarChartToolTip';
-import DynamicRangeLineChart from './Components/DynamicRangeLineChart';
+import { DateConverter } from './Components/Converter/DateConverter';
 import Header from './Components/Header';
 import InteractivePieChart from './Components/InteractivePieChart';
 import LineChartBrushZoom from './Components/LineBrushZoom';
@@ -56,8 +56,7 @@ function App() {
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
-        <AnimatedLineChart data={DataLineChart} lable={'date'} value={'amount'}/>
-        <DynamicRangeLineChart marketData={marketData.data}/>
+        <AnimatedLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <UltimateLineChart data={marketData}/>
         <LineChartBrushZoom data={chartData}/>
       <Header header={'Bar Chart'}/>
