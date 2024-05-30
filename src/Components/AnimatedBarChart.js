@@ -1,7 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function AnimatedBarChart({data}){
+export default function AnimatedBarChart({data, lable, value}){
     const svgRef = useRef()
 
     useEffect(()=>{
@@ -18,18 +18,19 @@ export default function AnimatedBarChart({data}){
          .style('overflow', 'visible')
 
     // setting up scaling
+    const isDate = data[0][lable] instanceof Date
+    const dateFormat = d3.timeFormat('%d/%m/%y')
+
     const xScale = d3.scaleBand()
-        .domain(data.map((val,i)=>i+1))
+        .domain(data.map((d,i)=>isDate ? dateFormat(d[lable]) : d[lable]))
         .range([0, w])
         .padding(0.8)
     const yScale = d3.scaleLinear()
-        .domain([0, h])
+        .domain([0, d3.max(data, function(d){return d[value]})])
         .range([h, 0]);
 
     // setting the axes
     const xAxis = d3.axisBottom(xScale)
-      .ticks(data.length)
-    //   .tickFormat(i=>i)
     const yAxis = d3.axisLeft(yScale)
       .ticks(5)
 
@@ -49,6 +50,11 @@ export default function AnimatedBarChart({data}){
         .call(xAxis)
         .attr('transform', `translate(0, ${h})`)
         .attr('color', 'white')
+        .selectAll("text")  
+        .style("font-size", "8px")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-50)");
+
         svg.append('g')
         .call(yAxis)
         .attr('color', 'white')
@@ -67,27 +73,44 @@ export default function AnimatedBarChart({data}){
         .attr("stroke-width", 0.2)
         .call(yAxisGrid)
 
+    // lable
+    svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", w/2)
+        .attr("y", h + 40)
+        .style("color", '#fff')
+        .text(lable?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+    
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("x", -h/2)
+        .attr("y", -35)
+        .attr("transform", "rotate(-90)")
+        .text(value?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+
     // setting up data for svg
     var bar = svg.selectAll('.bar')
-       .data(data)
-       .join('rect')
-       
-       bar
-       .attr('x', (val, i)=> xScale(i))
-       .attr('width', xScale.bandwidth())
-       .attr('fill', 'orange')
-       .attr('stroke', 'orange')
-       .attr('height', (val)=> h-yScale(0))
-       .attr('y', yScale(0) )
+              .data(data)
+              .join('rect')
+              .attr('x', (d)=> xScale(isDate ? dateFormat(d[lable]) : d[lable]))
+              .attr('y', (d)=> yScale(0))
+              .attr('width', xScale.bandwidth())
+              .attr('height', d=> h-yScale(0))
+              .attr('fill', 'orange')
+              .attr('stroke', 'orange')
 
-    svg
-    .selectAll('rect')
+    bar
     .transition()
     .duration(1000)
-    .attr('y', yScale)
-    .attr('height', (val)=> h-yScale(val))
+    .attr('y', (d)=> yScale(d[value]))
+    .attr('height', (d)=> h-yScale(d[value]))
     .delay(function(d,i){return(i*100)})
-    
 
     },[data])
 

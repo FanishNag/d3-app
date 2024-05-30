@@ -61,7 +61,7 @@ function App() {
         <LineChartBrushZoom data={chartData}/>
       <Header header={'Bar Chart'}/>
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
-        <AnimatedBarChart data={chartData}/>
+        <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <BarChartTooTip/>
         <BarChartData data={marketData.data}/>
       <Header header={'Pie Chart'}/>
