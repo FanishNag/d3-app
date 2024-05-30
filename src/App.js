@@ -60,7 +60,7 @@ function App() {
         <UltimateLineChart data={marketData}/>
         <LineChartBrushZoom data={chartData}/>
       <Header header={'Bar Chart'}/>
-        <BarChart data={chartData} />
+        <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={chartData}/>
         <BarChartTooTip/>
         <BarChartData data={marketData.data}/>

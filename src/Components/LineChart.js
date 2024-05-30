@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 export default function LineChart({data, lable, value}){
     const svgRef =  useRef()
-    console.log(data)
+    
     useEffect(()=>{
       // setting up svg
       const w = 500;
@@ -18,7 +18,6 @@ export default function LineChart({data, lable, value}){
       .style('overflow', 'visible')
       
       const isDate = data[0][lable] instanceof Date
-      console.log(isDate)
 
       const DynamicXScale = isDate ? 
                             d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 

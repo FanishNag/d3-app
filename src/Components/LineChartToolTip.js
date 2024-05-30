@@ -29,7 +29,6 @@ export default function LineChartToolTip({data, lable, value}){
       .style("border-radius", "5px");
       
       const isDate = data[0][lable] instanceof Date
-      console.log(isDate)
 
       const DynamicXScale = isDate ? 
                             d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 

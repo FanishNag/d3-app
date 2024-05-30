@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 export default function AnimatedLineChart({data, lable, value}){
     const svgRef =  useRef()
-    console.log(data)
+
     useEffect(()=>{
       // setting up svg
       const w = 500;
@@ -18,7 +18,6 @@ export default function AnimatedLineChart({data, lable, value}){
       .style('overflow', 'visible')
       
       const isDate = data[0][lable] instanceof Date
-      console.log(isDate)
 
       const DynamicXScale = isDate ? 
                             d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
@@ -119,16 +118,6 @@ export default function AnimatedLineChart({data, lable, value}){
         .ease(d3.easeLinear)
         .attr("stroke-dashoffset", 0)
         .duration(1500)
-        // .on("end", function(){dataPoints()})
-
-
-    // svg.selectAll('.line')
-    //    .data([data])
-    //    .join('path')
-    //      .attr('d', d=>generateScaleLine(d))
-    //      .attr('fill', 'none')
-    //      .attr('stroke', 'white')
-    //      .attr("stroke-width", 1.5)
                     
     },[data])
 

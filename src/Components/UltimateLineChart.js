@@ -8,7 +8,6 @@ export default function UltimateLineChart({data}){
 
     function updateChart(maxValue){
         const filteredData = data?.data.filter((_, index) => index < data.data.length * (maxValue / 100));
-        console.log(filteredData)
         // setting up svg
 
         const w = 500;

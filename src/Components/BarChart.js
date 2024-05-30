@@ -1,7 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function BarChart({data}){
+export default function BarChart({data, lable, value}){
     const svgRef = useRef()
 
     useEffect(()=>{
@@ -18,18 +18,19 @@ export default function BarChart({data}){
          .style('overflow', 'visible')
 
     // setting up scaling
+    const isDate = data[0][lable] instanceof Date
+    const dateFormat = d3.timeFormat('%d/%m/%y')
+
     const xScale = d3.scaleBand()
-        .domain(data.map((val,i)=>i+1))
+        .domain(data.map((d,i)=>isDate ? dateFormat(d[lable]) : d[lable]))
         .range([0, w])
         .padding(0.8)
     const yScale = d3.scaleLinear()
-        .domain([0, h])
+        .domain([0, d3.max(data, function(d){return d[value]})])
         .range([h, 0]);
 
     // setting the axes
     const xAxis = d3.axisBottom(xScale)
-      .ticks(data.length)
-    //   .tickFormat(i=>i)
     const yAxis = d3.axisLeft(yScale)
       .ticks(5)
 
@@ -49,6 +50,11 @@ export default function BarChart({data}){
         .call(xAxis)
         .attr('transform', `translate(0, ${h})`)
         .attr('color', 'white')
+        .selectAll("text")  
+        .style("font-size", "8px")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-50)");
+
         svg.append('g')
         .call(yAxis)
         .attr('color', 'white')
@@ -67,14 +73,35 @@ export default function BarChart({data}){
         .attr("stroke-width", 0.2)
         .call(yAxisGrid)
 
+    // lable
+    svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", w/2)
+        .attr("y", h + 40)
+        .style("color", '#fff')
+        .text(lable?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+    
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("x", -h/2)
+        .attr("y", -35)
+        .attr("transform", "rotate(-90)")
+        .text(value?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+
     // setting up data for svg
     svg.selectAll('.bar')
        .data(data)
        .join('rect')
-         .attr('x', (val, i)=> xScale(i) )
-         .attr('y', yScale )
+         .attr('x', (d)=> xScale(isDate ? dateFormat(d[lable]) : d[lable]) )
+         .attr('y', (d)=> yScale(d[value]) )
          .attr('width', xScale.bandwidth() )
-         .attr('height', val=> h-yScale(val) )
+         .attr('height', d=> h-yScale(d[value]) )
          .attr('fill', 'orange')
          .attr('stroke', 'orange')
 
