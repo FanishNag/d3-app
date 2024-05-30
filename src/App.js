@@ -62,7 +62,7 @@ function App() {
       <Header header={'Bar Chart'}/>
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
-        <BarChartTooTip/>
+        <BarChartTooTip data={DataLineChart} lable={'date'} value={'amount'}/>
         <BarChartData data={marketData.data}/>
       <Header header={'Pie Chart'}/>
         <PieChart data={chartData}/>

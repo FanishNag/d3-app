@@ -19,12 +19,15 @@ export default function AnimatedBarChart({data, lable, value}){
 
     // setting up scaling
     const isDate = data[0][lable] instanceof Date
-    const dateFormat = d3.timeFormat('%d/%m/%y')
 
-    const xScale = d3.scaleBand()
-        .domain(data.map((d,i)=>isDate ? dateFormat(d[lable]) : d[lable]))
-        .range([0, w])
-        .padding(0.8)
+    const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([5, w]) : 
+                            d3.scaleBand()
+                            .domain(data.map((d,i)=>d[lable]))
+                            .range([0, w])
+                            .padding(0.8);
+
+    const xScale = DynamicXScale
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d){return d[value]})])
         .range([h, 0]);
@@ -98,9 +101,9 @@ export default function AnimatedBarChart({data, lable, value}){
     var bar = svg.selectAll('.bar')
               .data(data)
               .join('rect')
-              .attr('x', (d)=> xScale(isDate ? dateFormat(d[lable]) : d[lable]))
+              .attr('x', (d)=> isDate ? xScale(d[lable])-5 : xScale(d[lable]))
               .attr('y', (d)=> yScale(0))
-              .attr('width', xScale.bandwidth())
+              .attr('width', 10)
               .attr('height', d=> h-yScale(0))
               .attr('fill', 'orange')
               .attr('stroke', 'orange')
