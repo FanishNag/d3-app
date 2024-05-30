@@ -57,8 +57,8 @@ function App() {
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
         <AnimatedLineChart data={DataLineChart} lable={'date'} value={'amount'}/>
-        <UltimateLineChart data={marketData}/>
         <DynamicRangeLineChart marketData={marketData.data}/>
+        <UltimateLineChart data={marketData}/>
         <LineChartBrushZoom data={chartData}/>
       <Header header={'Bar Chart'}/>
         <BarChart data={chartData} />

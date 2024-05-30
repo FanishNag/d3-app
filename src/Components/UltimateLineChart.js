@@ -97,7 +97,7 @@ export default function UltimateLineChart({data}){
    
    // create line path
    const path = svgUpdated.join('path')
-               .attr('class', '.line-uc')
+               .attr('class', 'line-uc')
                .attr('d', d=>generateScaleLine(d))
                .attr('stroke-width', '2')
                .style('fill', 'none')
@@ -167,7 +167,7 @@ export default function UltimateLineChart({data}){
     },[data, sliderValue])
     
     const removeElements=()=>{
-        d3.selectAll("path").remove()
+        d3.select(".line-uc").remove()
         d3.selectAll(".data-points-uc").remove()
         d3.select(".x-uc").remove()
         d3.select(".y-uc").remove()
