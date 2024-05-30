@@ -11,7 +11,6 @@ import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
-import PieChartData from './Components/PieChartData';
 import RangeSlider from './Components/RangeSlider/RangeSlider';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
@@ -63,9 +62,8 @@ function App() {
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <BarChartTooTip data={DataLineChart} lable={'date'} value={'amount'}/>
       <Header header={'Pie Chart'}/>
-        <PieChart data={chartData}/>
-        <AnimatedPieChart data={chartData}/>
-        <PieChartData data={marketData.data}/>
+        <PieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
+        <AnimatedPieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
         <InteractivePieChart/>
     </div>
   );
