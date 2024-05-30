@@ -133,7 +133,7 @@ export default function LineChartToolTip({data, lable, value}){
 
         d3.select(this)
             .attr("stroke", "steelblue") 
-            .attr("stroke-width", 4);
+            .attr("stroke-width", 5);
     }
 
     function mousemove(event){

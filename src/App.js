@@ -57,7 +57,7 @@ function App() {
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
-        <LineChartData data={marketData}/>
+        <AnimatedLineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <UltimateLineChart data={marketData}/>
         <DynamicRangeLineChart marketData={marketData.data}/>
         <LineChartBrushZoom data={chartData}/>
@@ -66,7 +66,6 @@ function App() {
         <AnimatedBarChart data={chartData}/>
         <BarChartTooTip/>
         <BarChartData data={marketData.data}/>
-        <AnimatedLineChart data={chartData}/>
       <Header header={'Pie Chart'}/>
         <PieChart data={chartData}/>
         <AnimatedPieChart data={chartData}/>
