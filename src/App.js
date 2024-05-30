@@ -64,7 +64,7 @@ function App() {
       <Header header={'Pie Chart'}/>
         <PieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
         <AnimatedPieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
-        <InteractivePieChart/>
+        <InteractivePieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
     </div>
   );
 }
