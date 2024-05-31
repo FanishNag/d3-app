@@ -16,9 +16,10 @@ export default function AreaChart({data, lable, value}){
       .style('border', '2px solid black')
       .style('background', '#000000')
       .style('overflow', 'visible')
-
+      
+      const keys = ['categoryA', 'categoryB', 'categoryC']
       const stack = d3.stack()
-      .keys(['categoryA', 'categoryB', 'categoryC'])
+      .keys(keys)
       .order(d3.stackOrderNone)
       .offset(d3.stackOffsetNone);
      
@@ -109,20 +110,21 @@ export default function AreaChart({data, lable, value}){
     svg.selectAll()
         .data(series)
         .join('path')
+        .attr("class", function(d) { return "myArea " + d.key })
         .attr('d', d=>areaGenerator(d))
         .attr('fill', d=>color(d.key))
         .attr("fill-opacity", .3)
         .attr('stroke', 'white')
         .attr("stroke-width", 1.5)
         .attr("d", areaGenerator)
-        .on("mouseover", function(event, d){mouseover.call(this, d)})
-        .on("mouseout", function(event, d){mouseout.call(this, d)})
+        .on("mouseover", function(event, d){areamouseover.call(this, d)})
+        .on("mouseout", function(event, d){areamouseout.call(this, d)})
 
-    function mouseover(d){
+    function areamouseover(d){
         d3.select(this)
         .attr("fill-opacity", 1);
     }
-    function mouseout(d){
+    function areamouseout(d){
         d3.select(this)
         .attr("fill-opacity", .3);
     }
@@ -136,7 +138,34 @@ export default function AreaChart({data, lable, value}){
           .attr('text-anchor', 'end')
           .attr('fill', color(stack.key))
           .text(`Stack ${stack.key}: ${lastValue}`);
-    })         
+    })
+    
+    var size = 20
+    svg.selectAll("myrect")
+      .data(keys)
+      .enter()
+      .append("rect")
+        .attr("x", w+10)
+        .attr("y", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function(d){ return color(d)})
+        .on("mouseover", function(event, d){highlight.call(this, d)})
+        .on("mouseout", function(event, d){noHighlight.call(this, d)})
+
+    function highlight(d){
+        // reduce opacity of all groups
+        d3.selectAll(".myArea").style("opacity", .1)
+        // expect the one that is hovered
+        d3.select("."+d).style("opacity", 1)
+        }
+    
+        // And when it is not hovered anymore
+        function noHighlight(d){
+        d3.selectAll(".myArea").style("opacity", 1)
+        }
+
+
     },[data])
 
     return(
