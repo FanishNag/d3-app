@@ -2,6 +2,8 @@ import './App.css';
 import AnimatedBarChart from './Components/AnimatedBarChart';
 import AnimatedLineChart from './Components/AnimatedLineChart';
 import AnimatedPieChart from './Components/AnimatedPieChart';
+import AreaChart from './Components/AreaChart';
+import BackgroundMap from './Components/BackgroundMap';
 import BarChart from './Components/BarChart';
 import BarChartTooTip from './Components/BarChartToolTip';
 import { DateConverter } from './Components/Converter/DateConverter';
@@ -11,6 +13,7 @@ import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
+import StackedAreaChart from './Components/StackedAreaChart';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
 function App() {
@@ -39,6 +42,15 @@ function App() {
     {date: new Date("Thu, 09 Sep 2023"), amount : 1050},
     {date: new Date("Thu, 10 Sep 2023"), amount : 450},
   ]
+
+  const stackedData=[
+    { "date": "2023-01-01", "categoryA": 30, "categoryB": 20, "categoryC": 50 },
+    { "date": "2023-02-01", "categoryA": 40, "categoryB": 30, "categoryC": 60 },
+    { "date": "2023-03-01", "categoryA": 35, "categoryB": 25, "categoryC": 45 },
+    { "date": "2023-04-01", "categoryA": 50, "categoryB": 40, "categoryC": 70 },
+    { "date": "2023-05-01", "categoryA": 55, "categoryB": 45, "categoryC": 80 }
+  ]
+  
   
   return (
     <div className="App">
@@ -48,6 +60,9 @@ function App() {
         <AnimatedLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <UltimateLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <LineChartBrushZoom data={DataLineChart} lable={'date'} value={'amount'}/>
+      <Header header={'Area Chart'}/>
+        <AreaChart data={DataLineChart} lable={'date'} value={'amount'}/>
+        <StackedAreaChart data={DateConverter(stackedData, "date")} lable={'date'} value={'amount'}/>
       <Header header={'Bar Chart'}/>
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
@@ -56,6 +71,8 @@ function App() {
         <PieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
         <AnimatedPieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
         <InteractivePieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
+      <Header header={'Map Chart'}/>
+        <BackgroundMap/>
     </div>
   );
 }

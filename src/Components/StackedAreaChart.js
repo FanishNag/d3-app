@@ -1,0 +1,147 @@
+import React, { useEffect, useRef} from "react";
+import * as d3 from 'd3';
+
+export default function AreaChart({data, lable, value}){
+    const svgRef =  useRef()
+    
+    useEffect(()=>{
+      // setting up svg
+      const w = 500;
+      const h = 300;
+      const svg = d3.select(svgRef.current)
+      .attr('width', w)
+      .attr('height', h)
+      .style('margin', '10')
+      .style('padding', '50')
+      .style('border', '2px solid black')
+      .style('background', '#000000')
+      .style('overflow', 'visible')
+
+      const stack = d3.stack()
+      .keys(['categoryA', 'categoryB', 'categoryC'])
+      .order(d3.stackOrderNone)
+      .offset(d3.stackOffsetNone);
+     
+      const series = stack(data);
+      
+      const isDate = data[0][lable] instanceof Date
+      const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
+                            d3.scaleLinear().domain([0, data.length]).range([0, w]);
+
+    // setting up scaling
+    const xScale = DynamicXScale
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
+        .range([h, 0])
+        .nice()
+
+    const areaGenerator = d3.area()
+                            .x((d)=>xScale(d.data.date))
+                            .y0(d => yScale(d[0]))
+                            .y1(d => yScale(d[1]))
+                            // .curve(d3.curveCardinal);
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // setting the axes
+    const xAxis = d3.axisBottom(xScale)
+      
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(5)
+    
+    // setting up grids
+    const xAxisGrid = d3.axisBottom(xScale)
+      .ticks(data.length)
+      .tickSize(-h)
+      .tickFormat('')
+
+    const yAxisGrid = d3.axisLeft(yScale)
+      .ticks(5)
+      .tickSize(-w)
+      .tickFormat('')
+    
+    // axes
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr('color', 'white')
+        .call(xAxis)
+    svg.append('g')
+        .attr('color', 'white')
+        .call(yAxis)
+
+    // grid
+    svg.append('g')
+        .attr('transform', `translate(0, ${h})`)
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
+        .call(xAxisGrid)
+
+    svg.append('g')
+        .attr("stroke-dasharray","4")
+        .attr('color', 'orange')
+        .attr("stroke-width", 0.2)
+        .call(yAxisGrid)
+    
+    // axes lable
+    svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", w/2)
+        .attr("y", h + 40)
+        .style("color", '#fff')
+        .text(lable?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+        
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("x", -h/2)
+        .attr("y", -35)
+        .attr("transform", "rotate(-90)")
+        .text(value?.toUpperCase())
+        .style("font-size", '10px')
+        .style("fill", 'white');
+
+    // setting up data for svg
+    svg.selectAll()
+        .data(series)
+        .join('path')
+        .attr('d', d=>areaGenerator(d))
+        .attr('fill', d=>color(d.key))
+        .attr("fill-opacity", .3)
+        .attr('stroke', 'white')
+        .attr("stroke-width", 1.5)
+        .attr("d", areaGenerator)
+        .on("mouseover", function(event, d){mouseover.call(this, d)})
+        .on("mouseout", function(event, d){mouseout.call(this, d)})
+
+    function mouseover(d){
+        d3.select(this)
+        .attr("fill-opacity", 1);
+    }
+    function mouseout(d){
+        d3.select(this)
+        .attr("fill-opacity", .3);
+    }
+    
+    // Add labels for each stack
+    series.forEach((stack, i) => {
+        const lastValue = stack[stack.length - 1][1]
+        svg.append('text')
+          .attr('x', w-50)
+          .attr('y', yScale(lastValue)) // Adjust the vertical position
+          .attr('text-anchor', 'end')
+          .attr('fill', color(stack.key))
+          .text(`Stack ${stack.key}: ${lastValue}`);
+    })         
+    },[data])
+
+    return(
+        <div>
+            <svg ref={svgRef}></svg>
+        </div>
+    )
+}
