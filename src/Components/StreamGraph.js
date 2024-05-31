@@ -1,7 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function AreaChart({data, lable, value}){
+export default function StreamGraph({data, lable, value}){
     const svgRef =  useRef()
     
     useEffect(()=>{
@@ -17,28 +17,29 @@ export default function AreaChart({data, lable, value}){
       .style('background', '#000000')
       .style('overflow', 'visible')
       
-      const keys = ['categoryA', 'categoryB', 'categoryC']
+      const keys = ['year','Amanda','Ashley','Betty','Deborah','Dorothy','Helen','Linda','Patricia']
       const stack = d3.stack()
       .keys(keys)
       .order(d3.stackOrderNone)
-      .offset(d3.stackOffsetNone);
+      .offset(d3.stackOffsetSilhouette);
      
       const series = stack(data);
       
+      console.log(series)
       const isDate = data[0][lable] instanceof Date
       const DynamicXScale = isDate ? 
                             d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
-                            d3.scaleLinear().domain([0, data.length]).range([0, w]);
+                            d3.scaleLinear().domain(d3.extent(data, function(d) { return d[lable]; })).range([ 0, w ]);
 
     // setting up scaling
     const xScale = DynamicXScale
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
+        .domain([-d3.max(series, d => d3.max(d, d => d[1])), d3.max(series, d => d3.max(d, d => d[1]))])
         .range([h, 0])
         .nice()
 
     const areaGenerator = d3.area()
-                            .x((d)=>xScale(d.data.date))
+                            .x((d)=>xScale(d.data.year))
                             .y0(d => yScale(d[0]))
                             .y1(d => yScale(d[1]))
                             // .curve(d3.curveCardinal);
@@ -72,18 +73,18 @@ export default function AreaChart({data, lable, value}){
         .call(yAxis)
 
     // grid
-    svg.append('g')
-        .attr('transform', `translate(0, ${h})`)
-        .attr("stroke-dasharray","4")
-        .attr('color', 'orange')
-        .attr("stroke-width", 0.2)
-        .call(xAxisGrid)
+    // svg.append('g')
+    //     .attr('transform', `translate(0, ${h})`)
+    //     .attr("stroke-dasharray","4")
+    //     .attr('color', 'orange')
+    //     .attr("stroke-width", 0.2)
+    //     .call(xAxisGrid)
 
-    svg.append('g')
-        .attr("stroke-dasharray","4")
-        .attr('color', 'orange')
-        .attr("stroke-width", 0.2)
-        .call(yAxisGrid)
+    // svg.append('g')
+    //     .attr("stroke-dasharray","4")
+    //     .attr('color', 'orange')
+    //     .attr("stroke-width", 0.2)
+    //     .call(yAxisGrid)
     
     // axes lable
     svg.append("text")
@@ -121,24 +122,15 @@ export default function AreaChart({data, lable, value}){
         .on("mouseout", function(event, d){areamouseout.call(this, d)})
 
     function areamouseover(d){
+        d3.selectAll(".myArea").style("fill-opacity", .1)
         d3.select(this)
         .style("fill-opacity", 1);
     }
     function areamouseout(d){
+        d3.selectAll(".myArea").style("fill-opacity", .3)
         d3.select(this)
         .style("fill-opacity", .3);
     }
-    
-    // Add labels for each stack
-    series.forEach((stack, i) => {
-        const lastValue = stack[stack.length - 1][1]
-        svg.append('text')
-          .attr('x', w-50)
-          .attr('y', yScale(lastValue)) // Adjust the vertical position
-          .attr('text-anchor', 'end')
-          .attr('fill', color(stack.key))
-          .text(`Stack ${stack.key}: ${lastValue}`);
-    })
     
     var size = 20
     svg.selectAll("myrect")
@@ -154,16 +146,15 @@ export default function AreaChart({data, lable, value}){
         .on("mouseout", function(event, d){noHighlight.call(this, d)})
 
     function highlight(d){
-        console.log(d)
         // reduce opacity of all groups
-        d3.selectAll(".myArea").style("fill-opacity", 0.3)
+        d3.selectAll(".myArea").style("fill-opacity", .1)
         // expect the one that is hovered
         d3.select("."+d).style("fill-opacity", 1)
         }
     
         // And when it is not hovered anymore
         function noHighlight(d){
-        d3.selectAll(".myArea").style("fill-opacity", 0.3)
+        d3.selectAll(".myArea").style("fill-opacity", .3)
         }
 
 

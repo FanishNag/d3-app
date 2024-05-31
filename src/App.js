@@ -16,7 +16,8 @@ import PieChart from './Components/PieChart';
 import StackedAreaChart from './Components/StackedAreaChart';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
-import { DataLineChart, DataLineChart2, stackedData } from './assets/data';
+import { DataLineChart, DataLineChart2, stackedData, streamData } from './assets/data';
+import StreamGraph from './Components/StreamGraph';
 function App() {
   return (
     <div className="App">
@@ -29,6 +30,7 @@ function App() {
       <Header header={'Area Chart'}/>
         <AreaChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <StackedAreaChart data={DateConverter(stackedData, "date")} lable={'date'} value={'amount'}/>
+        <StreamGraph data={DateConverter(streamData, "date")} lable={'year'} value={'amount'}/>
       <Header header={'Bar Chart'}/>
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
