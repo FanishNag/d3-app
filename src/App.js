@@ -11,7 +11,6 @@ import LineChartBrushZoom from './Components/LineBrushZoom';
 import LineChart from './Components/LineChart';
 import LineChartToolTip from './Components/LineChartToolTip';
 import PieChart from './Components/PieChart';
-import RangeSlider from './Components/RangeSlider/RangeSlider';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
 function App() {
