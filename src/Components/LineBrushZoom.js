@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-export default function LineChartBrushZoom({ data }) {
+export default function LineChartBrushZoom({ data, lable, value }) {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -20,24 +20,26 @@ export default function LineChartBrushZoom({ data }) {
       .style("overflow", "visible");
 
     // setting up scaling
-    const xScale = d3
-      .scaleLinear()
-      .domain([0, data.length])
-      .range([0, w]);
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, d3.max(data)])
-      .range([h, 0])
-      .nice();
+    const isDate = data[0][lable] instanceof Date
+
+    const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
+                            d3.scaleLinear().domain([0, data.length]).range([0, w]);
+                            
+    const xScale = DynamicXScale;
+    const yScale = d3.scaleLinear()
+                  .domain([0, d3.max(data, function(d){return d[value]})])
+                  .range([h, 0])
+                  .nice()
     const generateScaleLine = d3
       .line()
-      .x((d, i) => xScale(i))
-      .y(yScale)
+      .x((d, i) => xScale(d[lable]))
+      .y((d, i) => yScale(d[value]))
       .curve(d3.curveCardinal);
 
     // setting the axes
-    const xAxis = d3.axisBottom(xScale).ticks(data.length).tickFormat((i) => i);
-    const yAxis = d3.axisLeft(yScale).ticks(5);
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
 
     // setting up grids
     const xAxisGrid = d3
@@ -175,6 +177,50 @@ export default function LineChartBrushZoom({ data }) {
       .attr("fill", "none")
       .attr("stroke", "white")
       .attr("stroke-width", 1.5);
+
+      // If user double click, reinitialize the chart
+    svg.on("dblclick",function(){
+      isDate ?xScale.domain(d3.extent(data, function(d) { return d[lable]; })) : xScale.domain([0, data.length])
+      x.transition().duration(1000).call(d3.axisBottom(xScale));
+      line
+      .append("path")
+      .datum(data)
+      .attr("d", generateScaleLine)
+      .transition()
+      .duration(1000)
+      .attr("fill", "none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5);
+
+      // extra code to prevent overlaping lables
+      svg.selectAll(".tick").remove()
+      // axes
+      svg
+      .append("g")
+      .attr("transform", `translate(0, ${h})`)
+      .attr("color", "white")
+      .call(xAxis);
+
+      svg.append("g").attr("color", "white").call(yAxis);
+
+  // grid
+      svg
+      .append("g")
+      .attr("transform", `translate(0, ${h})`)
+      .attr("stroke-dasharray", "4")
+      .attr("color", "orange")
+      .attr("stroke-width", 0.2)
+      .call(xAxisGrid);
+
+      svg
+      .append("g")
+      .attr("stroke-dasharray", "4")
+      .attr("color", "orange")
+      .attr("stroke-width", 0.2)
+      .call(yAxisGrid);
+
+
+    });
   }, [data]);
 
   return (
