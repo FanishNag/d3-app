@@ -15,7 +15,7 @@ import RangeSlider from './Components/RangeSlider/RangeSlider';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
 function App() {
-  const chartData = []
+  
   const DataLineChart2 = [
     {date: 0, amount : 250},
     {date: 1, amount : 350},
@@ -41,14 +41,6 @@ function App() {
     {date: new Date("Thu, 10 Sep 2023"), amount : 450},
   ]
   
-  const randomData=()=>{
-  for (let i = 0; i <= 10; i++) {
-    const value = Math.floor(Math.random() * 200);
-    chartData.push(value);
-    }
-  return chartData
-  }
-  randomData()
   return (
     <div className="App">
       <Header header={'Line Charts'}/>
