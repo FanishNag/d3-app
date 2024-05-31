@@ -55,7 +55,7 @@ function App() {
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
         <AnimatedLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
-        <UltimateLineChart data={marketData}/>
+        <UltimateLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <LineChartBrushZoom data={DataLineChart} lable={'date'} value={'amount'}/>
       <Header header={'Bar Chart'}/>
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>

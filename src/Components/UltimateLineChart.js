@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState} from "react";
 import * as d3 from 'd3';
 import Slider from "./RangeSlider/RangeSliderUpdated";
 
-export default function UltimateLineChart({data}){
+export default function UltimateLineChart({data, lable, value}){
     const svgRef = useRef()
     const [sliderValue, setSliderValue] = useState(100);
 
     function updateChart(maxValue){
-        const filteredData = data?.data.filter((_, index) => index < data.data.length * (maxValue / 100));
+        const filteredData = data?.filter((_, index) => index < data.length * (maxValue / 100));
         // setting up svg
 
         const w = 500;
@@ -33,16 +33,20 @@ export default function UltimateLineChart({data}){
        .style("border-radius", "5px");
 
    // setting up scaling
-   const xScale = d3.scaleTime()
-       .domain(d3.extent(filteredData, function(d){return new Date(d.price_date)}))
-       .range([0, w]);
+   const isDate = data[0][lable] instanceof Date
+
+   const DynamicXScale = isDate ? 
+                            d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
+                            d3.scaleLinear().domain([0, data.length]).range([0, w]);
+
+   const xScale = DynamicXScale;
    const yScale = d3.scaleLinear()
-       .domain([0, d3.max(filteredData, function(d){return d.modal_price})])
+       .domain([d3.min(filteredData, function(d){return d[value]}), d3.max(filteredData, function(d){return d[value]})])
        .range([h, 0])
 
    const generateScaleLine= d3.line()
-                               .x((d)=>xScale(new Date(d.price_date)))
-                               .y((d)=>yScale(d.modal_price))
+                               .x((d)=>xScale(d[lable]))
+                               .y((d)=>yScale(d[value]))
                                .curve(d3.curveCardinal);
 
    // setting the axes
@@ -116,7 +120,7 @@ export default function UltimateLineChart({data}){
        // tooltip-functions
        function mouseover(d){
            const toolTip=()=>{
-                   return `${"X"}: ${d.price_date}<br>${"Y"}: ${d.modal_price}`
+                   return `${"X"}: ${d[lable]}<br>${"Y"}: ${d[value]}`
            }
 
            tooltip
@@ -150,10 +154,10 @@ export default function UltimateLineChart({data}){
            .attr('class', 'data-points-uc')
            .attr("fill", "white")
            .attr("stroke", "none")
-           .attr("cx", function(d) { return xScale(new Date(d.price_date)) })
-           .attr("cy", function(d) { return yScale(d.modal_price) })
+           .attr("cx", function(d) { return xScale(d[lable]) })
+           .attr("cy", function(d) { return yScale(d[value]) })
            .attr("r", 3)
-           .text(d=>d.modal_price)
+           .text(d=>d[value])
            .on("mouseover", function(event, d){mouseover.call(this, d)})
            .on("mousemove", function(event){mousemove(event)})
            .on("mouseout", function(){ mouseout.call(this)})        
