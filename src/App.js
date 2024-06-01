@@ -16,14 +16,14 @@ import PieChart from './Components/PieChart';
 import StackedAreaChart from './Components/StackedAreaChart';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
-import { DataLineChart, DataLineChart2, boxplotData, boxplotData2, stackedData, streamData } from './assets/data';
+import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData } from './assets/data';
 import StreamGraph from './Components/StreamGraph';
 import BoxPlot from './Components/BoxPlot';
 function App() {
   return (
     <div className="App">
       <Header header={'Box plot'}/>
-        <BoxPlot data={boxplotData2} categerizedBy={'Species'} column={'Sepal_Length'}/>
+        <BoxPlot data={boxplotData} categerizedBy={'Species'} column={'Sepal_Length'}/>
 
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>

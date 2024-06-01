@@ -175,16 +175,7 @@
     { "year": 2018, "Amanda": 556, "Ashley": 3006, "Betty": 29, "Deborah": 155, "Dorothy": 19, "Helen": 19, "Linda": 176, "Patricia": 340 },
   ]
 
-
 export const boxplotData=[
-  { "category": "A", "values": [34, 37, 45, 50, 52, 58, 60, 61, 65, 67, 69, 70, 72, 73, 74, 75, 78, 80, 82, 85] },
-  { "category": "B", "values": [23, 25, 28, 30, 32, 34, 36, 38, 40, 42, 44, 45, 47, 50, 52, 53, 55, 57, 59, 60] },
-  { "category": "C", "values": [15, 20, 25, 28, 30, 33, 35, 37, 39, 41, 42, 43, 45, 47, 48, 49, 51, 53, 55, 57] },
-  { "category": "D", "values": [5, 7, 10, 12, 15, 18, 20, 22, 24, 27, 29, 30, 32, 33, 35, 37, 38, 40, 42, 44] },
-  { "category": "E", "values": [50, 52, 55, 57, 60, 62, 64, 66, 68, 70, 72, 74, 75, 77, 78, 80, 82, 84, 85, 87] }
-];
-
-export const boxplotData2=[
   {"Sepal_Length": 5.1, "Sepal_Width": 3.5, "Petal_Length": 1.4, "Petal_Width": 0.2, "Species": "setosa"},
   {"Sepal_Length": 4.9, "Sepal_Width": 3.0, "Petal_Length": 1.4, "Petal_Width": 0.2, "Species": "setosa"},
   {"Sepal_Length": 4.7, "Sepal_Width": 3.2, "Petal_Length": 1.3, "Petal_Width": 0.2, "Species": "setosa"},
