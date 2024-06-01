@@ -328,4 +328,83 @@ export const boxplotData=[
   {"Sepal_Length": 5.9, "Sepal_Width": 3.0, "Petal_Length": 5.1, "Petal_Width": 1.8, "Species": "virginica"}
 ]
 
+export const stockData=[
+  {
+    "stock": "AAPL",
+    "date": "2024-01-01",
+    "price": 150
+  },
+  {
+    "stock": "AAPL",
+    "date": "2024-01-02",
+    "price": 153
+  },
+  {
+    "stock": "AAPL",
+    "date": "2024-01-03",
+    "price": 147
+  },
+  {
+    "stock": "AAPL",
+    "date": "2024-01-04",
+    "price": 155
+  },
+  {
+    "stock": "AAPL",
+    "date": "2024-01-05",
+    "price": 152
+  },
+  {
+    "stock": "GOOGL",
+    "date": "2024-01-01",
+    "price": 280
+  },
+  {
+    "stock": "GOOGL",
+    "date": "2024-01-02",
+    "price": 282
+  },
+  {
+    "stock": "GOOGL",
+    "date": "2024-01-03",
+    "price": 278
+  },
+  {
+    "stock": "GOOGL",
+    "date": "2024-01-04",
+    "price": 281
+  },
+  {
+    "stock": "GOOGL",
+    "date": "2024-01-05",
+    "price": 279
+  },
+  {
+    "stock": "MSFT",
+    "date": "2024-01-01",
+    "price": 300
+  },
+  {
+    "stock": "MSFT",
+    "date": "2024-01-02",
+    "price": 305
+  },
+  {
+    "stock": "MSFT",
+    "date": "2024-01-03",
+    "price": 298
+  },
+  {
+    "stock": "MSFT",
+    "date": "2024-01-04",
+    "price": 310
+  },
+  {
+    "stock": "MSFT",
+    "date": "2024-01-05",
+    "price": 307
+  }
+]
+
+
   

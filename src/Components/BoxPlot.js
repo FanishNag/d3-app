@@ -15,21 +15,38 @@ export default function BoxPlot({data, column, categerizedBy}){
       .style('border', '2px solid black')
       .style('background', '#000000')
       .style('overflow', 'visible')
+
+    //  setting up for tooltip
+      const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "visible")
+      .style("background-color", "rgba(0, 0, 0, 0.7)")
+      .style("color", "white")
+      .style("z-index", 9999)
+      .style("border-radius", "5px");
     
     // setting up data
     var groupedData = d3.group(data, d => d[categerizedBy]);
 
+    console.log(groupedData)
+
     // Compute quartiles, median, interquantile range min and max for each group
     var sumstat = [];
     groupedData.forEach(function(values, key) {
-      var q1 = d3.quantile(values.map(function(g) { return g[column]; }).sort(d3.ascending), 0.25);
-      var median = d3.quantile(values.map(function(g) { return g[column]; }).sort(d3.ascending), 0.5);
-      var q3 = d3.quantile(values.map(function(g) { return g[column]; }).sort(d3.ascending), 0.75);
+      const sortedValues = values.map(v => v[column]).sort(d3.ascending);
+      var q1 = d3.quantile(sortedValues, 0.25);
+      var median = d3.quantile(sortedValues, 0.5);
+      var q3 = d3.quantile(sortedValues, 0.75);
       var interQuantileRange = q3 - q1;
-      var min = q1 - 1.5 * interQuantileRange;
-      var max = q3 + 1.5 * interQuantileRange;
+      // var min = q1 - 1.5 * interQuantileRange;
+      // var max = q3 + 1.5 * interQuantileRange;
+      const min = Math.max(d3.min(sortedValues), q1 - 1.5 * interQuantileRange);
+      const max = Math.min(d3.max(sortedValues), q3 + 1.5 * interQuantileRange);
       
-      sumstat.push({Species: key, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max});
+      sumstat.push({[categerizedBy]: key, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max});
     });
 
     // seting up scaling
@@ -81,8 +98,11 @@ export default function BoxPlot({data, column, categerizedBy}){
         .attr("y", function(d){return(yScale(d.q3))})
         .attr("height", function(d){return(yScale(d.q1)-yScale(d.q3))})
         .attr("width", boxWidth)
-        .attr("stroke", "#fff")
-        .style("fill", "#69b3a2")
+        .style("fill", "green")
+        .attr('ry', 5)
+        .on('mouseover', function(event, d){mouseover.call(this, d)})
+        .on('mousemove', mousemove)
+        .on('mouseout', mouseout)
   
   // Show the median
   svg
@@ -95,6 +115,32 @@ export default function BoxPlot({data, column, categerizedBy}){
       .attr("y1", function(d){return(yScale(d.median))})
       .attr("y2", function(d){return(yScale(d.median))})
       .attr("stroke", "red")
+
+  // tooltip functions
+  function mouseover(d){
+    console.log(d)
+    const toolTip=()=>{
+      return `${categerizedBy}: ${d[categerizedBy]}<br>Min: ${d.min}<br>Q1: ${d.q1}<br>Median: ${d.median}<br>Q3: ${d.q3}<br>Max: ${d.max}`;
+    }
+
+    tooltip
+        .style("visibility", "visible")
+        .html(toolTip);
+
+    d3.select(this)
+        .attr("stroke", "#fff");
+}
+function mousemove(event){
+  tooltip
+  .style("top", event.pageY - 10 + "px")
+  .style("left", event.pageX + 10 + "px");
+}
+function mouseout(){
+    tooltip.style("visibility", "hidden");
+
+    d3.select(this)
+        .attr("stroke", "none");
+}
 
   },[data])
 

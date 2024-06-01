@@ -16,7 +16,7 @@ import PieChart from './Components/PieChart';
 import StackedAreaChart from './Components/StackedAreaChart';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
-import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData } from './assets/data';
+import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData, stockData } from './assets/data';
 import StreamGraph from './Components/StreamGraph';
 import BoxPlot from './Components/BoxPlot';
 function App() {
