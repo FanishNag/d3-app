@@ -25,7 +25,6 @@ export default function StreamGraph({data, lable, value}){
      
       const series = stack(data);
       
-      console.log(series)
       const isDate = data[0][lable] instanceof Date
       const DynamicXScale = isDate ? 
                             d3.scaleTime().domain(d3.extent(data, (d) => d[lable])).range([0, w]) : 
