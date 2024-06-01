@@ -41,10 +41,10 @@ export default function BoxPlot({data, column, categerizedBy}){
       var median = d3.quantile(sortedValues, 0.5);
       var q3 = d3.quantile(sortedValues, 0.75);
       var interQuantileRange = q3 - q1;
-      // var min = q1 - 1.5 * interQuantileRange;
-      // var max = q3 + 1.5 * interQuantileRange;
-      const min = Math.max(d3.min(sortedValues), q1 - 1.5 * interQuantileRange);
-      const max = Math.min(d3.max(sortedValues), q3 + 1.5 * interQuantileRange);
+      var min = q1 - 1.5 * interQuantileRange;
+      var max = q3 + 1.5 * interQuantileRange;
+      // const min = Math.max(d3.min(sortedValues), q1 - 1.5 * interQuantileRange);
+      // const max = Math.min(d3.max(sortedValues), q3 + 1.5 * interQuantileRange);
       
       sumstat.push({[categerizedBy]: key, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max});
     });
