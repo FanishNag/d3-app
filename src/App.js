@@ -19,11 +19,13 @@ import marketData from './assets/data.json';
 import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData, stockData } from './assets/data';
 import StreamGraph from './Components/StreamGraph';
 import BoxPlot from './Components/BoxPlot';
+import StockBoxPlot from './Components/StockBoxPlot';
 function App() {
   return (
     <div className="App">
       <Header header={'Box plot'}/>
         <BoxPlot data={boxplotData} categerizedBy={'Species'} column={'Sepal_Length'}/>
+        <StockBoxPlot data={stockData} categerizedBy={'time'} column={'price'}/>
 
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>

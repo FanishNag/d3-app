@@ -1,7 +1,7 @@
 import React, { useEffect, useRef} from "react";
 import * as d3 from 'd3';
 
-export default function BoxPlot({data, column, categerizedBy}){
+export default function StockBoxPlot({data, column, categerizedBy}){
     const svgRef =  useRef()
  
     useEffect(()=>{
@@ -29,7 +29,7 @@ export default function BoxPlot({data, column, categerizedBy}){
       .style("border-radius", "5px");
     
     // setting up data
-    var groupedData = d3.group(data, d => d[categerizedBy]);
+    var groupedData = d3.group(data, d => d[categerizedBy].split('T')[0]);
 
     // Compute quartiles, median, interquantile range min and max for each group
     var sumstat = [];
