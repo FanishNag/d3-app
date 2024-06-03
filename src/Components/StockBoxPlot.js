@@ -29,7 +29,7 @@ export default function StockBoxPlot({data, column, categerizedBy}){
       .style("border-radius", "5px");
     
     // setting up data
-    var groupedData = d3.group(data, d => d[categerizedBy].split('T')[0]);
+    var groupedData = d3.group(data, d => `${d[categerizedBy].toISOString().split('T')[0]} ${d[categerizedBy].getHours()}:00`);
 
     // Compute quartiles, median, interquantile range min and max for each group
     var sumstat = [];
@@ -66,7 +66,11 @@ export default function StockBoxPlot({data, column, categerizedBy}){
     svg.append('g')
         .attr('transform', `translate(0, ${height})`)
         .attr('color', 'white')
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")  
+        .style("font-size", "8px")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-50)");
 
     svg.append('g')
         .attr('color', 'white')

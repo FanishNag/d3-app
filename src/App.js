@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <Header header={'Box plot'}/>
         <BoxPlot data={boxplotData} categerizedBy={'Species'} column={'Sepal_Length'}/>
-        <StockBoxPlot data={stockData} categerizedBy={'time'} column={'price'}/>
+        <StockBoxPlot data={DateConverter(stockData, 'time')} categerizedBy={'time'} column={'price'}/>
 
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
