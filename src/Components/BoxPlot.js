@@ -86,6 +86,13 @@ export default function BoxPlot({data, column, categerizedBy}){
       .style("width", 40)
 
   // rectangle for the main box
+  // Calculate colors based on median comparison
+  for (let i = 1; i < sumstat.length; i++) {
+    sumstat[i].color = sumstat[i].median > sumstat[i - 1].median ? "green" : "red";
+  }
+  // Set initial color for the first element
+  sumstat[0].color = "gray"; // or any other color to denote no change/comparison
+
   var boxWidth = 50
   svg
     .selectAll("boxes")
@@ -96,7 +103,7 @@ export default function BoxPlot({data, column, categerizedBy}){
         .attr("y", function(d){return(yScale(d.q3))})
         .attr("height", function(d){return(yScale(d.q1)-yScale(d.q3))})
         .attr("width", boxWidth)
-        .style("fill", "green")
+        .style("fill", d => d.color)
         .attr('ry', 5)
         .on('mouseover', function(event, d){mouseover.call(this, d)})
         .on('mousemove', mousemove)

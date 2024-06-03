@@ -90,7 +90,14 @@ export default function StockBoxPlot({data, column, categerizedBy}){
       .style("width", 40)
 
   // rectangle for the main box
-  var boxWidth = 50
+  // Calculate colors based on median comparison
+  for (let i = 1; i < sumstat.length; i++) {
+    sumstat[i].color = sumstat[i].median > sumstat[i - 1].median ? "#00B386" : "rgb(235, 91, 60)";
+  }
+  // Set initial color for the first element
+  sumstat[0].color = "gray"; // or any other color to denote no change/comparison
+
+  var boxWidth = 20
   svg
     .selectAll("boxes")
     .data(sumstat)
@@ -100,7 +107,7 @@ export default function StockBoxPlot({data, column, categerizedBy}){
         .attr("y", function(d){return(yScale(d.q3))})
         .attr("height", function(d){return(yScale(d.q1)-yScale(d.q3))})
         .attr("width", boxWidth)
-        .style("fill", "green")
+        .style("fill", d => d.color)
         .attr('ry', 5)
         .on('mouseover', function(event, d){mouseover.call(this, d)})
         .on('mousemove', mousemove)
@@ -116,7 +123,7 @@ export default function StockBoxPlot({data, column, categerizedBy}){
       .attr("x2", function(d){return(xScale(d[categerizedBy])+boxWidth/2)})
       .attr("y1", function(d){return(yScale(d.median))})
       .attr("y2", function(d){return(yScale(d.median))})
-      .attr("stroke", "red")
+      .attr("stroke", "black")
 
   // tooltip functions
   function mouseover(d){
@@ -147,7 +154,7 @@ function mouseout(){
   },[data])
 
     return(
-        <div>
+        <div style={{ overflowX: 'auto' }}>
             <svg ref={svgRef}></svg>
         </div>
     )
