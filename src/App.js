@@ -20,19 +20,17 @@ import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData, st
 import StreamGraph from './Components/StreamGraph';
 import BoxPlot from './Components/BoxPlot';
 import StockBoxPlot from './Components/StockBoxPlot';
+import LineChartHoverLine from './LineChartHoverLine';
 function App() {
   return (
     <div className="App">
-      <Header header={'Box plot'}/>
-        <BoxPlot data={boxplotData} categerizedBy={'Species'} column={'Sepal_Length'}/>
-        <StockBoxPlot data={DateConverter(stockData, 'time')} categerizedBy={'time'} column={'price'}/>
-
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>
         <AnimatedLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <UltimateLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <LineChartBrushZoom data={DataLineChart} lable={'date'} value={'amount'}/>
+        <LineChartHoverLine data={DataLineChart} lable={'date'} value={'amount'}/>
 
       <Header header={'Area Chart'}/>
         <AreaChart data={DataLineChart} lable={'date'} value={'amount'}/>
@@ -49,8 +47,13 @@ function App() {
         <AnimatedPieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
         <InteractivePieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
 
+      <Header header={'Box plot'}/>
+        <BoxPlot data={boxplotData} categerizedBy={'Species'} column={'Sepal_Length'}/>
+        <StockBoxPlot data={DateConverter(stockData, 'time')} categerizedBy={'time'} column={'price'}/>
+
       <Header header={'Map Chart'}/>
         <BackgroundMap/>
+      
     </div>
   );
 }
