@@ -96,11 +96,11 @@ export default function ScatterPlot({ data, lable, value }) {
       .append("g")
       .attr("transform", `translate(0, ${h})`)
       .attr("color", "white")
-      .call(xAxis.scale(zx).ticks(5));
+      .call(xAxis.scale(zx));
 
     svg.append("g")
     .attr("color", "white")
-    .call(yAxis.scale(zy).ticks(5));
+    .call(yAxis.scale(zy));
 
     // clip-path
     svg
