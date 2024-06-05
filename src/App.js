@@ -22,6 +22,7 @@ import BoxPlot from './Components/BoxPlot';
 import StockBoxPlot from './Components/StockBoxPlot';
 import LineChartHoverLine from './LineChartHoverLine';
 import ScatterPlot from './Components/ScatterPlot';
+import LineChartWheel from './Components/LineChartWheel';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <UltimateLineChart data={DateConverter(marketData.data, 'price_date')} lable={'price_date'} value={'modal_price'}/>
         <LineChartBrushZoom data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartHoverLine data={DataLineChart} lable={'date'} value={'amount'}/>
+        <LineChartWheel data={DataLineChart} lable={'date'} value={'amount'}/>
 
       <Header header={'Area Chart'}/>
         <AreaChart data={DataLineChart} lable={'date'} value={'amount'}/>
