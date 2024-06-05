@@ -16,14 +16,18 @@ import PieChart from './Components/PieChart';
 import StackedAreaChart from './Components/StackedAreaChart';
 import UltimateLineChart from './Components/UltimateLineChart';
 import marketData from './assets/data.json';
-import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData, stockData } from './assets/data';
+import { DataLineChart, DataLineChart2, boxplotData, stackedData, streamData, stockData, scatterData } from './assets/data';
 import StreamGraph from './Components/StreamGraph';
 import BoxPlot from './Components/BoxPlot';
 import StockBoxPlot from './Components/StockBoxPlot';
 import LineChartHoverLine from './LineChartHoverLine';
+import ScatterPlot from './Components/ScatterPlot';
+
 function App() {
   return (
     <div className="App">
+      <Header header={'Scatter plot'}/>
+        <ScatterPlot data={scatterData} lable={'GrLivArea'} value={'SalePrice'}/>
       <Header header={'Line Charts'}/>
         <LineChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <LineChartToolTip data={DataLineChart} lable={'date'} value={'amount'} height={300} width={500}/>

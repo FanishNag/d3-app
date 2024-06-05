@@ -1,4 +1,7 @@
   
+  import * as d3 from 'd3';
+
+  export const scatterData = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv')
   export const DataLineChart2 = [
     {date: 0, amount : 250},
     {date: 1, amount : 350},

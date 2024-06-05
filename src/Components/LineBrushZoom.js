@@ -128,7 +128,7 @@ export default function LineChartBrushZoom({ data, lable, value }) {
     svg.selectAll("path").remove()
     // Update axis and line position
 
-      x.transition().duration(1000).call(d3.axisBottom(xScale));
+    x.transition().duration(1000).call(d3.axisBottom(xScale));
 
     // axes
         svg
