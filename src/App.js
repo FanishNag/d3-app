@@ -23,6 +23,7 @@ import StockBoxPlot from './Components/StockBoxPlot';
 import LineChartHoverLine from './LineChartHoverLine';
 import ScatterPlot from './Components/ScatterPlot';
 import LineChartWheel from './Components/LineChartWheel';
+import BarChartWheel from './BarChartWheel';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <BarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <AnimatedBarChart data={DataLineChart} lable={'date'} value={'amount'}/>
         <BarChartTooTip data={DataLineChart} lable={'date'} value={'amount'}/>
+        <BarChartWheel data={DataLineChart} lable={'date'} value={'amount'}/>
 
       <Header header={'Pie Chart'}/>
         <PieChart data={DataLineChart2} lable={'date'} value={'amount'}/>
