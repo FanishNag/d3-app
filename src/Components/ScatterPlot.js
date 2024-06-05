@@ -3,6 +3,7 @@ import * as d3 from "d3";
 
 export default function ScatterPlot({ data, lable, value }) {
   const svgRef = useRef();
+  data = data.slice(0,50)
   useEffect(() => {
     // setting up svg
     const w = 500;
@@ -14,17 +15,9 @@ export default function ScatterPlot({ data, lable, value }) {
       .attr("height", h)
       .style("margin", "10")
       .style("padding", "50")
-      .style("border", "2px solid black")
+      .style("border", "2px solid #000000")
       .style("background", "#000000")
       .style("overflow", "visible");
-
-      // Define clip path
-      svg.append("defs")
-      .append("clipPath")
-      .attr("id", "clip")
-      .append("rect")
-      .attr("width", w)
-      .attr("height", h);
 
       // setting up for tooltip
       const tooltip = d3
@@ -54,44 +47,6 @@ export default function ScatterPlot({ data, lable, value }) {
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
-    // setting up grids
-    const xAxisGrid = d3
-      .axisBottom(xScale)
-      .ticks(data.length)
-      .tickSize(-h)
-      .tickFormat("");
-
-    const yAxisGrid = d3
-      .axisLeft(yScale)
-      // .ticks(5)
-      .tickSize(-w)
-      .tickFormat("");
-
-    // axes
-    const x = svg
-      .append("g")
-      .attr("transform", `translate(0, ${h})`)
-      .attr("color", "white")
-      .call(xAxis);
-    const y = svg.append("g")
-    .attr("color", "white")
-    .call(yAxis);
-
-    // grid
-    // svg
-    //   .append("g")
-    //   .attr("transform", `translate(0, ${h})`)
-    //   .attr("stroke-dasharray", "4")
-    //   .attr("color", "orange")
-    //   .attr("stroke-width", 0.1)
-    //   .call(xAxisGrid);
-
-    // svg
-    //   .append("g")
-    //   .attr("stroke-dasharray", "4")
-    //   .attr("color", "orange")
-    //   .attr("stroke-width", 0.2)
-    //   .call(yAxisGrid);
 
     // Add dots
     function mouseover(d){
@@ -122,33 +77,6 @@ export default function ScatterPlot({ data, lable, value }) {
       attr("stroke", "none"); // Restore default stroke color on mouseout
   }
 
-  var clip = svg
-      .append("defs")
-      .append("svg:clipPath")
-      .attr("id", "clip")
-      .append("svg:rect")
-      .attr("width", w)
-      .attr("height", h)
-      .attr("x", 0)
-      .attr("y", 0);
-
-  // dots
-  const gDot = svg.append('g')
-  .attr("clip-path", "url(#clip)")
-  .selectAll('.dots')
-  .data(data)
-  .enter()
-  .append('circle')
-  .attr("class", "dots")
-  .attr("cx", d=>xScale(d[lable]))
-  .attr("cy", d=>yScale(d[value]))
-  .attr("fill", "#69b3a2")
-  .attr("r", 3)
-  .text(d=>d[value])
-  .on("mouseover", function(event, d){mouseover.call(this, d)})
-  .on("mousemove", function(event){mousemove(event)})
-  .on("mouseout", function(){ mouseout.call(this)})
-
   const zoom = d3.zoom()
       .scaleExtent([0.5, 32])
       .on("zoom", zoomed);
@@ -158,23 +86,34 @@ export default function ScatterPlot({ data, lable, value }) {
   function zoomed({transform}) {
     const zx = transform.rescaleX(xScale).interpolate(d3.interpolateRound);
     const zy = transform.rescaleY(yScale).interpolate(d3.interpolateRound);
-
-    x.call(xAxis.scale(zx));
-    y.call(yAxis.scale(zy));
-
+    
     // remove existance graph
     svg.selectAll(".tick").remove()
     svg.selectAll(".dots").remove()
-
+    
     // axes
     svg
-    .append("g")
-    .attr("transform", `translate(0, ${h})`)
+      .append("g")
+      .attr("transform", `translate(0, ${h})`)
+      .attr("color", "white")
+      .call(xAxis.scale(zx).ticks(5));
+
+    svg.append("g")
     .attr("color", "white")
-    .call(xAxis);
+    .call(yAxis.scale(zy).ticks(5));
 
-    svg.append("g").attr("color", "white").call(yAxis);
-
+    // clip-path
+    svg
+    .append("defs")
+    .append("svg:clipPath")
+    .attr("id", "clip")
+    .append("svg:rect")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("x", 0)
+    .attr("y", 0);
+    
+    // dots
     svg.append('g')
       .attr("clip-path", "url(#clip)")
       .selectAll('.dots')
@@ -186,12 +125,10 @@ export default function ScatterPlot({ data, lable, value }) {
       .attr("cy", d=>yScale(d[value]))
       .attr("fill", "#69b3a2")
       .attr("r", 3)
-      .text(d=>d[value])
       .on("mouseover", function(event, d){mouseover.call(this, d)})
       .on("mousemove", function(event){mousemove(event)})
       .on("mouseout", function(){ mouseout.call(this)})
       .attr("transform", transform)
-      .attr("stroke-width", 5);
 
   }
 
